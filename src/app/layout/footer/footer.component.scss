@@ -1,0 +1,12 @@
+.footer {
+  margin: 0 auto;
+  padding: 1rem 0;
+  padding-left: 1rem;
+  position: relative;
+  bottom: 0;
+  width: 95%;
+  font-size: 0.8rem;
+  z-index: 10;
+  background-color: var(--sys-background);
+  color: var(--sys-on-background);
+}

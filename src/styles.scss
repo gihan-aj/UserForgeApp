@@ -1,0 +1,75 @@
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+$transactly-app-theme: mat.define-theme(
+  (
+    color: (
+      use-system-variables: true,
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
+@import "bootstrap/scss/bootstrap-grid.scss"; // Add .container and .container-fluid classes
+@import "bootstrap/scss/bootstrap-utilities.scss"; // Add the grid system
+
+@import "./app/theme/dark-theme-variables.scss";
+@import "./app/theme/light-theme-variables.scss";
+@import "./app/theme/clickable-card-container.scss";
+
+:root {
+  @include mat.all-component-themes($transactly-app-theme);
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+h1 {
+  margin-top: 0;
+  color: var(--sys-on-surface-variant);
+}
+
+.success {
+  color: var(--sys-primary-container);
+  background-color: var(--sys-on-primary-container);
+}
+
+.info {
+  color: var(--sys-tertiary-container);
+  background-color: var(--sys-on-tertiary-container);
+}
+
+.warning {
+  color: var(--sys-secondary-container);
+  background-color: var(--sys-on-secondary-container);
+}
+
+.danger {
+  color: var(--sys-error-container);
+  background-color: var(--sys-on-error-container);
+}
+
+.success-text {
+  color: var(--sys-primary);
+}
+
+.info-text {
+  color: var(--sys-tertiary);
+}
+
+.warning-text {
+  color: var(--sys-secondary);
+}
+
+.danger-text {
+  color: var(--sys-error);
+}
