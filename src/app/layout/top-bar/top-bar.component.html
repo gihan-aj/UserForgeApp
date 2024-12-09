@@ -9,7 +9,7 @@
     <mat-icon>menu</mat-icon>
   </button>
   <div [@fadeInOut]="sideNavbarOpened() ? 'out' : 'in'">
-    <span>User Forge</span>
+    <span><strong>User Forge</strong></span>
   </div>
   <span class="spacer"></span>
 
@@ -21,7 +21,9 @@
     matTooltip="User menu"
   >
     @if (authService.currentUserSig()) {
-    <mat-icon class="user-display-text">{{ userDisplayText() }}</mat-icon>
+    <mat-icon class="user-display-text"
+      ><strong>{{ userDisplayText() }}</strong></mat-icon
+    >
     }@else {
 
     <mat-icon>person</mat-icon>
@@ -44,11 +46,30 @@
 </mat-toolbar>
 
 <mat-menu #userMenu="matMenu">
-  @for (item of menuItems; track $index) {
-
-  <button routerLink="{{ item.routerLink }}" mat-menu-item>
-    <mat-icon>{{ item.icon }}</mat-icon>
-    <span>{{ item.label }}</span>
+  @if (authService.currentUserSig()) {
+  <button routerLink="account/user-profile" mat-menu-item>
+    <mat-icon>person</mat-icon>
+    <span>View profile</span>
+  </button>
+  } @if (!authService.currentUserSig()) {
+  <button routerLink="account/login" mat-menu-item>
+    <mat-icon>login</mat-icon>
+    <span>Log in</span>
+  </button>
+  } @if (!authService.currentUserSig()) {
+  <button routerLink="account/register" mat-menu-item>
+    <mat-icon>person_add</mat-icon>
+    <span>Create new account</span>
+  </button>
+  } @if (authService.currentUserSig()) {
+  <button routerLink="account/user-settings" mat-menu-item>
+    <mat-icon>settings</mat-icon>
+    <span>Settings</span>
+  </button>
+  } @if (authService.currentUserSig()) {
+  <button (click)="onLogout()" mat-menu-item>
+    <mat-icon>logout</mat-icon>
+    <span>Log out</span>
   </button>
   }
 </mat-menu>

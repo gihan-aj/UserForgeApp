@@ -5,7 +5,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../shared/services/auth.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sidenav',
@@ -32,29 +31,39 @@ export class SidenavComponent {
       label: 'Dashboard',
     },
     {
-      routerLink: 'sales',
-      icon: 'point_of_sale',
-      label: 'Sales',
-    },
-    {
-      routerLink: 'products',
-      icon: 'category',
-      label: 'Products',
-    },
-    {
-      routerLink: 'inventory',
-      icon: 'inventory',
-      label: 'Inventory',
-    },
-    {
-      routerLink: 'customers',
+      routerLink: 'user-management',
       icon: 'groups',
-      label: 'Customers',
+      label: 'User Management',
     },
     {
-      routerLink: 'reports',
+      routerLink: 'software-packages',
+      icon: 'app_shortcut',
+      label: 'Software Packages',
+    },
+    {
+      routerLink: 'permissions-management',
+      icon: 'admin_panel_settings',
+      label: 'Permissions Management',
+    },
+    {
+      routerLink: 'audit-logs',
       icon: 'summarize',
-      label: 'Reports',
+      label: 'Audit Logs',
+    },
+    {
+      routerLink: 'sso-settings',
+      icon: 'manufacturing',
+      label: 'SSO Settings',
+    },
+    {
+      routerLink: 'intergrations',
+      icon: 'api',
+      label: 'Intergrations',
+    },
+    {
+      routerLink: 'support',
+      icon: 'help',
+      label: 'Support',
     },
     {
       routerLink: 'settings',

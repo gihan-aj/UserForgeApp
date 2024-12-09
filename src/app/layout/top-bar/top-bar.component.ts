@@ -46,43 +46,31 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class TopBarComponent {
   darkMode = signal<boolean>(true);
+
   sideNavbarOpened = input.required<boolean>();
+
   changeSideNavbarOpened = output<boolean>();
+
   userDisplayText = computed(() => {
-    if(this.authService.currentUserSig()){
+    if (this.authService.currentUserSig()) {
       return (
         this.authService.currentUserSig()!.firstName[0].toUpperCase() +
         this.authService.currentUserSig()!.lastName[0].toUpperCase()
       );
-    }else{
-      return 'person'
+    } else {
+      return 'person';
     }
   });
 
+  isUserLoggedIn = computed(() =>
+    this.authService.currentUserSig() ? true : false
+  );
+
   constructor(public authService: AuthService) {}
 
-  menuItems = [
-    {
-      routerLink: 'account/login',
-      icon: 'login',
-      label: 'Log In',
-    },
-    {
-      routerLink: 'account/register',
-      icon: 'person_add',
-      label: 'Create New Account',
-    },
-    {
-      routerLink: 'user-settings',
-      icon: 'settings',
-      label: 'Settings',
-    },
-    {
-      routerLink: 'logout',
-      icon: 'logout',
-      label: 'Log Out',
-    },
-  ];
+  onLogout() {
+    this.authService.logout();
+  }
 
   toggleSideNavbar(): void {
     this.changeSideNavbarOpened.emit(!this.sideNavbarOpened());
