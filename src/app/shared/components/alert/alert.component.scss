@@ -1,3 +1,14 @@
+ul {
+  text-decoration: none;
+  padding-left: 0;
+}
+
+li {
+  text-decoration: none;
+  list-style: none;
+  margin-left: 0;
+}
+
 .success {
   color: var(--sys-primary-container);
   background-color: var(--sys-on-primary-container);

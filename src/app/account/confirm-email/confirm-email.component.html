@@ -1,0 +1,27 @@
+<div class="text-center p-3">
+  <div class="contained">
+    <h1>Activate Your Account</h1>
+    <p>
+      Thank you for registering! <br />
+      Please click the button below to activate your account.
+    </p>
+    <mat-divider class="my-3"></mat-divider>
+
+    <button
+      class="my-3"
+      [disabled]="requestPending"
+      mat-flat-button
+      (click)="activateAccount()"
+    >
+      Activate Account
+    </button>
+    <br />
+    <button
+      [disabled]="requestPending"
+      mat-button
+      routerLink="/account/send-email/resend-email-confirmation-link"
+    >
+      Resend activation link
+    </button>
+  </div>
+</div>

@@ -1,8 +1,8 @@
 <div class="clickable-card-container">
   @for (item of items; track $index) {
   <div routerLink="{{ item.routerLink }}" class="clickable-card">
-    <mat-icon>{{ item.icon }}</mat-icon>
-    <h3>{{ item.label }}</h3>
+    <mat-icon class="clickable-card-icon">{{ item.icon }}</mat-icon>
+    <h2>{{ item.label }}</h2>
   </div>
   }
 </div>

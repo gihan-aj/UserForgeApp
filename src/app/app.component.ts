@@ -1,5 +1,5 @@
 import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { OutletContext, RouterOutlet } from '@angular/router';
 import { TopBarComponent } from './layout/top-bar/top-bar.component';
 import { SidenavComponent } from './layout/sidenav/sidenav.component';
 
@@ -7,6 +7,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { FooterComponent } from './layout/footer/footer.component';
 import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.component';
 import { BreadcrumbService } from './shared/components/breadcrumb/breadcrumb.service';
+import { routerFadeIn } from './shared/animations/router-fade-in.animation';
+import { AuthService } from './shared/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -21,9 +23,10 @@ import { BreadcrumbService } from './shared/components/breadcrumb/breadcrumb.ser
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  animations: [routerFadeIn],
 })
 export class AppComponent implements OnInit {
-  title = 'transactly-app';
+  title = 'userforge-app';
   screenWidth = signal<number>(window.innerWidth);
   sideNavbarOpened = signal<boolean>(true);
 

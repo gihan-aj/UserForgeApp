@@ -16,13 +16,38 @@ export class ErrorHandlingService {
       this.alertService.alert(
         this.alertTypes.danger,
         error.error.title,
-        `${error.error.detail} (${error.staus})`
+        `${error.error.detail} (${error.status})`,
+        error.error.errors!
       );
     } else {
+      let title = 'Unknown Error';
+      let message = 'Unidentified error occured';
+
+      switch (error.status) {
+        case 0:
+          (title = 'Offline'), (message = 'Server connection lost.');
+          break;
+
+        case 401:
+          (title = 'Unauthorized'),
+            (message = 'Please login with valid credentials.');
+          break;
+
+        case 403:
+          (title = 'Forbidden'),
+            (message = 'You have no permission to perform this action.');
+          break;
+
+        case 404:
+          (title = 'Not Found'),
+            (message = 'The resource you are looking was not found.');
+          break;
+      }
+
       this.alertService.alert(
         this.alertTypes.danger,
-        'Unknown Error',
-        `Unidentified error occured (${error.status})`
+        title,
+        `${message} (${error.status})`
       );
     }
   }

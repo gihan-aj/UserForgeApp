@@ -9,17 +9,23 @@
     <mat-icon>menu</mat-icon>
   </button>
   <div [@fadeInOut]="sideNavbarOpened() ? 'out' : 'in'">
-    <span>Transactly</span>
+    <span>User Forge</span>
   </div>
   <span class="spacer"></span>
+
   <button
-    class="m-1"
+    class="mx-1"
     mat-icon-button
     aria-label="User menu"
     [mat-menu-trigger-for]="userMenu"
     matTooltip="User menu"
   >
+    @if (authService.currentUserSig()) {
+    <mat-icon class="user-display-text">{{ userDisplayText() }}</mat-icon>
+    }@else {
+
     <mat-icon>person</mat-icon>
+    }
   </button>
 
   <button

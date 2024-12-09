@@ -11,7 +11,7 @@ import { CategoryInterface } from './category.interface';
 })
 export class CategoryConfigurationService {
   http = inject(HttpClient);
-  baseUrl: string = `${environment.baseUrl}/api/v1/categories`;
+  baseUrl: string = `${environment.baseUrl}/categories`;
 
   constructor() {}
 

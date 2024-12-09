@@ -1,4 +1,11 @@
-import { Component, effect, input, output, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   trigger,
@@ -13,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -40,15 +48,27 @@ export class TopBarComponent {
   darkMode = signal<boolean>(true);
   sideNavbarOpened = input.required<boolean>();
   changeSideNavbarOpened = output<boolean>();
+  userDisplayText = computed(() => {
+    if(this.authService.currentUserSig()){
+      return (
+        this.authService.currentUserSig()!.firstName[0].toUpperCase() +
+        this.authService.currentUserSig()!.lastName[0].toUpperCase()
+      );
+    }else{
+      return 'person'
+    }
+  });
+
+  constructor(public authService: AuthService) {}
 
   menuItems = [
     {
-      routerLink: 'login',
+      routerLink: 'account/login',
       icon: 'login',
       label: 'Log In',
     },
     {
-      routerLink: 'register',
+      routerLink: 'account/register',
       icon: 'person_add',
       label: 'Create New Account',
     },

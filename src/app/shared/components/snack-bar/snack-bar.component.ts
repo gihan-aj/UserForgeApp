@@ -9,6 +9,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { SnackBarInterface } from '../../models/snack-bar.interface';
+import { AlertTypeEnum } from '../../enums/alert-type.enum';
 
 @Component({
   selector: 'app-snack-bar',
@@ -25,5 +26,22 @@ import { SnackBarInterface } from '../../models/snack-bar.interface';
 })
 export class SnackBarComponent {
   snackBarRef = inject(MatSnackBarRef);
-  constructor(@Inject(MAT_SNACK_BAR_DATA) public data: SnackBarInterface) {}
+  color: string;
+  title: string;
+
+  constructor(@Inject(MAT_SNACK_BAR_DATA) public data: SnackBarInterface) {
+    if (data.type === AlertTypeEnum.success) {
+      this.title = 'Success';
+      this.color = 'var(--sys-primary-container)';
+    } else if (data.type === AlertTypeEnum.info) {
+      this.title = 'Info';
+      this.color = 'var(--sys-tertiary-container)';
+    } else if (data.type === AlertTypeEnum.warning) {
+      this.title = 'Warning';
+      this.color = 'var(--sys-secondary-container)';
+    } else {
+      this.title = 'Error';
+      this.color = 'var(--sys-error-container)';
+    }
+  }
 }

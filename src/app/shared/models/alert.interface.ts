@@ -4,4 +4,5 @@ export interface AlertInterface {
   type: AlertTypeEnum;
   title: string;
   text: string;
+  detail: string[];
 }

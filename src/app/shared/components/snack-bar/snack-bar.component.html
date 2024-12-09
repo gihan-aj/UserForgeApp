@@ -1,4 +1,6 @@
-<span matSnackBarLabel [ngClass]="[data.type]">{{ data.text }}</span>
+<span matSnackBarLabel [style.color]="color"
+  ><strong>{{ title }} : </strong>{{ data.text }}</span
+>
 
 <span matSnackBarActions>
   <button

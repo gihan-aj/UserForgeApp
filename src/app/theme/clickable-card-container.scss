@@ -8,6 +8,7 @@
 }
 
 .clickable-card {
+  margin: 0.8rem;
   flex: 1 1 150px;
   width: 300px;
   height: 150px;
@@ -28,8 +29,10 @@
 }
 
 .clickable-card-icon {
-  font-size: 32px;
-  margin-bottom: 8px;
+  font-size: 50px !important;
+  width: 50px !important;
+  height: 50px !important;
+  margin-top: 1rem !important;
 }
 
 .clickable-card-title {

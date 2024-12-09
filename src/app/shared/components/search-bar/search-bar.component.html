@@ -1,7 +1,7 @@
 <form #formSearch>
   <div class="row">
     <div class="col-12 col-sm-4 mb-3 mb-sm-0 me-sm-0">
-      <mat-form-field class="w-100">
+      <mat-form-field appearance="outline" class="w-100">
         <mat-label>Search</mat-label>
         <input
           matInput
@@ -13,7 +13,7 @@
       </mat-form-field>
     </div>
     <div class="col-12 col-sm-4 mb-3 mb-sm-0 me-sm-0">
-      <mat-form-field class="w-100">
+      <mat-form-field appearance="outline" class="w-100">
         <mat-label>Sort By</mat-label>
         <mat-select [(value)]="sortBy">
           @for (sortColumn of sortByOptions(); track $index) {
@@ -26,7 +26,7 @@
       </mat-form-field>
     </div>
     <div class="col-12 col-sm-4 mb-3 mb-sm-0">
-      <mat-form-field class="w-100">
+      <mat-form-field appearance="outline" class="w-100">
         <mat-label>Sort Order</mat-label>
         <mat-select [(value)]="sortOrder">
           <mat-option value="{{ sortOrderTypes.ascending }}"

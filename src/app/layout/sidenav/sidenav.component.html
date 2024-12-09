@@ -3,7 +3,7 @@
     <li>
       <span class="text-center" mat-button routerLink="">
         <!-- <img class="logo" src="/logo/logo-3.png" alt="Logo" /> -->
-        <h2 class="app-name">Transactly</h2>
+        <h2 class="app-name">User Forge</h2>
       </span>
     </li>
     <br />
@@ -22,8 +22,22 @@
     </li>
     }
     <mat-divider></mat-divider>
+    @if (auth.currentUserSig()) {
     <li>
-      <a mat-button><mat-icon>login</mat-icon> <span>Sign In</span> </a>
+      <a mat-button routerLinkActive="active" (click)="onLogout()"
+        ><mat-icon>logout</mat-icon> <span>Sign Out</span>
+      </a>
     </li>
+    }@else {
+    <li>
+      <a
+        mat-button
+        routerLink="account/login"
+        routerLinkActive="active"
+        (click)="menuItemClicked()"
+        ><mat-icon>login</mat-icon> <span>Sign In</span>
+      </a>
+    </li>
+    }
   </ul>
 </nav>

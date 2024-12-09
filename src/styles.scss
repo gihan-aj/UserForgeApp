@@ -73,3 +73,10 @@ h1 {
 .danger-text {
   color: var(--sys-error);
 }
+
+.error-feedback {
+  font-size: 0.8rem;
+  color: var(--sys-error);
+  margin: 0.3rem !important;
+  margin-top: 0.1rem !important;
+}
