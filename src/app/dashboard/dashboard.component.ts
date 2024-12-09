@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../account/account.service';
-import { AuthService } from '../shared/services/auth.service';
 import { ErrorHandlingService } from '../shared/services/error-handling.service';
 
 @Component({
@@ -13,11 +12,10 @@ import { ErrorHandlingService } from '../shared/services/error-handling.service'
 export class DashboardComponent implements OnInit {
   constructor(
     private accountService: AccountService,
-    private authService: AuthService,
     private errorHandling: ErrorHandlingService
   ) {}
 
-  userName = '';
+  callingName = '';
 
   ngOnInit(): void {
     // this.authService.refreshToken();
@@ -27,7 +25,7 @@ export class DashboardComponent implements OnInit {
   getUserprofile() {
     this.accountService.getUserProfile().subscribe({
       next: (response) => {
-        this.userName = response.firstName;
+        this.callingName = response.lastName;
         console.log(response);
       },
       error: (error) => {

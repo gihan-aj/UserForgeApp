@@ -1,7 +1,6 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { catchError, switchMap, throwError } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
@@ -16,15 +15,20 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     }
   }
 
-  return next(req);
-
-  // return next(req).pipe(
-  //   catchError((error) => {
-  //     if (error.status === 401 && refreshToken) {
-  //       return authService.handleTokenExpired(refreshToken, req, next);
-  //     }
-
-  //     return throwError(() => error);
-  //   })
-  // );
+  return next(req).pipe(
+    catchError((error) => {
+      if (error.status === 401 && refreshToken) {
+        authService.refreshAccessToken(refreshToken).pipe(
+          switchMap((response) => {
+            const newAccessToken = response.accessToken;
+            return next(authService.addToken(req, newAccessToken));
+          }),
+          catchError((error) => {
+            return throwError(() => error);
+          })
+        );
+      }
+      return throwError(() => error);
+    })
+  );
 };

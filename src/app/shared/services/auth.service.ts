@@ -83,6 +83,11 @@ export class AuthService {
       }),
       catchError((error) => {
         console.error('Error refreshing access token:', error);
+
+        this.currentUserSig.set(null);
+        localStorage.clear();
+        this.router.navigateByUrl('account/login');
+
         return throwError(() => error);
       })
     );
