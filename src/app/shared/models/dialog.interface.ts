@@ -1,7 +1,7 @@
-import { AlertTypeEnum } from '../enums/alert-type.enum';
+import { AlertType } from '../enums/alert-type.enum';
 
 export interface DialogInterface {
-  type: AlertTypeEnum;
+  type: AlertType;
   title: string;
   text: string;
   action: string;

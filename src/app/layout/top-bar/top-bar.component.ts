@@ -20,7 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { AuthService } from '../../shared/services/auth.service';
+import { UserService } from '../../user/services/user.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -52,10 +52,10 @@ export class TopBarComponent {
   changeSideNavbarOpened = output<boolean>();
 
   userDisplayText = computed(() => {
-    if (this.authService.currentUserSig()) {
+    if (this.userService.currentUserSig()) {
       return (
-        this.authService.currentUserSig()!.firstName[0].toUpperCase() +
-        this.authService.currentUserSig()!.lastName[0].toUpperCase()
+        this.userService.currentUserSig()!.firstName[0].toUpperCase() +
+        this.userService.currentUserSig()!.lastName[0].toUpperCase()
       );
     } else {
       return 'person';
@@ -63,13 +63,13 @@ export class TopBarComponent {
   });
 
   isUserLoggedIn = computed(() =>
-    this.authService.currentUserSig() ? true : false
+    this.userService.currentUserSig() ? true : false
   );
 
-  constructor(public authService: AuthService) {}
+  constructor(public userService: UserService) {}
 
   onLogout() {
-    this.authService.logout();
+    this.userService.logout();
   }
 
   toggleSideNavbar(): void {

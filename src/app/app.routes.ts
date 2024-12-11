@@ -24,11 +24,16 @@ export const routes: Routes = [
     data: { breadcrumb: 'Products' },
     canActivate: [authGuard],
   },
+  // {
+  //   path: 'account',
+  //   providers: [Router],
+  //   loadChildren: () =>
+  //     import('./account/account.routes').then((m) => m.routes),
+  // },
   {
-    path: 'account',
+    path: 'user',
     providers: [Router],
-    loadChildren: () =>
-      import('./account/account.routes').then((m) => m.routes),
+    loadChildren: () => import('./user/user.routes').then((u) => u.routes),
   },
   {
     path: 'not-found',

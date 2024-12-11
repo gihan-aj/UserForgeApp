@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AlertTypeEnum } from '../enums/alert-type.enum';
+import { AlertType } from '../enums/alert-type.enum';
 import { AlertComponent } from '../components/alert/alert.component';
 import { ActionTypeEnum } from '../enums/action-type.enum';
 import { EntityEnum } from '../enums/entity.enum';
@@ -13,7 +13,7 @@ export class AlertService {
   readonly dialog = inject(MatDialog);
 
   alert(
-    type: AlertTypeEnum,
+    type: AlertType,
     title: string,
     message: string,
     description: ErrorInterface[] = []
@@ -34,7 +34,7 @@ export class AlertService {
   //   actionType: ActionTypeEnum,
   //   multipleRecords: boolean = false
   // ) {
-  //   const type = AlertTypeEnum.success;
+  //   const type = AlertType.success;
 
   //   let title: string = 'Success';
   //   switch (actionType) {

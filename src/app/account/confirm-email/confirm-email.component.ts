@@ -4,7 +4,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AccountService } from '../account.service';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
-import { AlertTypeEnum } from '../../shared/enums/alert-type.enum';
+import { AlertType } from '../../shared/enums/alert-type.enum';
 import { ErrorHandlingService } from '../../shared/services/error-handling.service';
 
 @Component({
@@ -38,7 +38,7 @@ export class ConfirmEmailComponent implements OnInit {
     this.accountService.activateAccount(this.userId, this.token).subscribe({
       next: () => {
         this.snackBar.showNotification(
-          AlertTypeEnum.success,
+          AlertType.success,
           'Account activated. You can login now.'
         );
 
@@ -48,7 +48,7 @@ export class ConfirmEmailComponent implements OnInit {
       },
       error: (error) => {
         this.snackBar.showNotification(
-          AlertTypeEnum.danger,
+          AlertType.danger,
           'Account activation failed.'
         );
 

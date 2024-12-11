@@ -15,7 +15,7 @@ import { AccountService } from '../account.service';
 import { LoginRequestInterface } from './login-request.interface';
 import { AlertService } from '../../shared/services/alert.service';
 import { ErrorHandlingService } from '../../shared/services/error-handling.service';
-import { AlertTypeEnum } from '../../shared/enums/alert-type.enum';
+import { AlertType } from '../../shared/enums/alert-type.enum';
 import { errorFeedbackAnimation } from '../../shared/animations/error-feedback.animation';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { FirstKeyPipe } from '../../shared/pipes/first-key.pipe';
@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
   constructor() {
     if (this.authService.currentUserSig()) {
       this.snackBar.showNotification(
-        AlertTypeEnum.info,
+        AlertType.info,
         'You have already logged in.'
       );
       this.router.navigateByUrl('/dashboard');
@@ -123,7 +123,7 @@ export class LoginComponent implements OnInit {
     //   next: (response) => {
     //     console.log(response);
     //     this.alerService.alert(
-    //       AlertTypeEnum.success,
+    //       AlertType.success,
     //       'Success',
     //       `${response.firstName} has logged in successfully.`
     //     );

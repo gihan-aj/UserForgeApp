@@ -1,34 +1,39 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
 import { SnackBarService } from '../services/snack-bar.service';
-import { AlertTypeEnum } from '../enums/alert-type.enum';
+import { AlertType } from '../enums/alert-type.enum';
 import { JwtTokenService } from '../services/jwt-token.service';
+import { UserService } from '../../user/services/user.service';
+import { MessageService } from '../services/message.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
+  const userService = inject(UserService);
   const jwtTokenService = inject(JwtTokenService);
   const router = inject(Router);
   const snackBar = inject(SnackBarService);
+  const messageService = inject(MessageService);
 
-  if (authService.currentUserSig()) {
-    const accessToken = authService.currentUserSig()?.accessToken;
+  if (userService.currentUserSig()) {
+    const accessToken = userService.getAccessToken();
     if (accessToken) {
       if (!jwtTokenService.isTokenExpired(accessToken)) {
-        console.log('jwt has not expired');
         return true;
-      } else {
-        console.log('jwt has expired');
       }
-    } else {
-      authService.logout();
 
-      snackBar.showNotification(
-        AlertTypeEnum.danger,
-        'Access denied. You have to login again'
+      console.log('jwt has expired.');
+    } else {
+      userService.clearSession();
+
+      const message = messageService.getMassage(
+        'user',
+        'notifications',
+        'danger',
+        'loginFailed'
       );
 
-      router.navigate(['/account/login'], {
+      snackBar.showNotification(AlertType.danger, message);
+
+      router.navigate(['/user/login'], {
         queryParams: { returnUrl: state.url },
       });
 
@@ -36,11 +41,11 @@ export const authGuard: CanActivateFn = (route, state) => {
     }
   }
 
-  const refreshToken = authService.getRefreshToken();
+  const refreshToken = userService.getRefreshToken();
   if (refreshToken) {
-    authService.refreshAccessToken(refreshToken).subscribe({
+    userService.refreshAccessToken(refreshToken).subscribe({
       next: () => {
-        console.log('token verified.');
+        console.log('refreshAccessToken called: token verified.');
 
         router.navigateByUrl(state.url);
 
@@ -49,20 +54,30 @@ export const authGuard: CanActivateFn = (route, state) => {
       error: (error) => {
         console.error(error);
 
-        snackBar.showNotification(
-          AlertTypeEnum.danger,
-          'You have to login again'
+        const message = messageService.getMassage(
+          'user',
+          'notifications',
+          'danger',
+          'loginFailed'
         );
 
-        router.navigate(['/account/login'], {
+        snackBar.showNotification(AlertType.danger, message);
+
+        router.navigate(['/user/login'], {
           queryParams: { returnUrl: state.url },
         });
       },
     });
   } else {
-    snackBar.showNotification(AlertTypeEnum.warning, 'You have to login first');
+    const message = messageService.getMassage(
+      'user',
+      'notifications',
+      'warning',
+      'loginFailed'
+    );
+    snackBar.showNotification(AlertType.warning, message);
 
-    router.navigate(['/account/login'], {
+    router.navigate(['/user/login'], {
       queryParams: { returnUrl: state.url },
     });
   }

@@ -1,29 +1,33 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthService } from '../services/auth.service';
 import { catchError, switchMap, throwError } from 'rxjs';
+import { UserService } from '../../user/services/user.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(AuthService);
-  const user = authService.currentUserSig();
-  const refreshToken = authService.getRefreshToken();
+  const userService = inject(UserService);
+  const user = userService.currentUserSig();
+  const refreshToken = userService.getRefreshToken();
 
   if (user && refreshToken) {
-    const accessToken = user.accessToken;
+    const accessToken = userService.getAccessToken();
     if (accessToken) {
-      req = authService.addToken(req, accessToken);
+      req = userService.addToken(req, accessToken);
     }
   }
 
   return next(req).pipe(
     catchError((error) => {
       if (error.status === 401 && refreshToken) {
-        authService.refreshAccessToken(refreshToken).pipe(
+        console.log('unauthorized request');
+
+        userService.refreshAccessToken(refreshToken).pipe(
           switchMap((response) => {
+            console.log('called refreshAccessToken');
             const newAccessToken = response.accessToken;
-            return next(authService.addToken(req, newAccessToken));
+            return next(userService.addToken(req, newAccessToken));
           }),
           catchError((error) => {
+            console.log('called refreshAccessToken: couldnt refresh');
             return throwError(() => error);
           })
         );

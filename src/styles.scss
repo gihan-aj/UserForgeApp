@@ -74,6 +74,14 @@ h1 {
   color: var(--sys-error);
 }
 
+.centered-md-container {
+  max-width: 800px;
+  width: 100%;
+  border: 1px solid var(--sys-outline-variant);
+  padding: 2rem;
+  border-radius: 2rem;
+}
+
 .error-feedback {
   font-size: 0.8rem;
   color: var(--sys-error);

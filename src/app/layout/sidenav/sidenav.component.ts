@@ -4,7 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from '../../shared/services/auth.service';
+import { UserService } from '../../user/services/user.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -20,7 +20,7 @@ import { AuthService } from '../../shared/services/auth.service';
   ],
 })
 export class SidenavComponent {
-  public auth = inject(AuthService);
+  public userService = inject(UserService);
 
   closeSidemenu = output<boolean>();
 
@@ -79,7 +79,7 @@ export class SidenavComponent {
   }
 
   onLogout() {
-    this.auth.logout();
+    this.userService.logout();
     this.menuItemClicked();
   }
 }

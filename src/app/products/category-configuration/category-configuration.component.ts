@@ -20,7 +20,7 @@ import { ErrorHandlingService } from '../../shared/services/error-handling.servi
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 import { DialogService } from '../../shared/services/dialog.service';
-import { AlertTypeEnum } from '../../shared/enums/alert-type.enum';
+import { AlertType } from '../../shared/enums/alert-type.enum';
 import { AlertService } from '../../shared/services/alert.service';
 import { Subject, switchMap, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -124,7 +124,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
           this.categoryService.add(result).subscribe({
             next: () => {
               this.alerService.alert(
-                AlertTypeEnum.success,
+                AlertType.success,
                 'Success',
                 'Category was added successfully.'
               );
@@ -140,7 +140,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
           this.categoryService.update(result).subscribe({
             next: () => {
               this.alerService.alert(
-                AlertTypeEnum.success,
+                AlertType.success,
                 'Success',
                 'Category was updated successfully.'
               );
@@ -189,7 +189,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
   editCategory(item: CategoryInterface) {
     this.dialogService
       .openDilaog(
-        AlertTypeEnum.info,
+        AlertType.info,
         'Edit Confirmation',
         `Are you sure you want to edit this category
         ?`,
@@ -209,7 +209,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
     const ids = items.map((item) => item.id);
     this.dialogService
       .openDilaog(
-        AlertTypeEnum.info,
+        AlertType.info,
         'Activate Confirmation',
         `Are you sure you want to activate ${
           items.length > 1 ? 'these categories' : 'this category'
@@ -230,7 +230,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.alerService.alert(
-            AlertTypeEnum.success,
+            AlertType.success,
             'Success',
             `${
               items.length > 1 ? 'Categories were' : 'The category was'
@@ -250,7 +250,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
     const ids = items.map((item) => item.id);
     this.dialogService
       .openDilaog(
-        AlertTypeEnum.info,
+        AlertType.info,
         'Deactivate Confirmation',
         `Are you sure you want to deactivate ${
           items.length > 1 ? 'these categories' : 'this category'
@@ -271,7 +271,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.alerService.alert(
-            AlertTypeEnum.success,
+            AlertType.success,
             'Success',
             `${
               items.length > 1 ? 'Categories were' : 'The category was'
@@ -291,7 +291,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
     const ids = items.map((item) => item.id);
     this.dialogService
       .openDilaog(
-        AlertTypeEnum.danger,
+        AlertType.danger,
         'Delete Confirmation',
         `Are you sure you want to delete ${
           items.length > 1 ? 'these categories' : 'this category'
@@ -306,7 +306,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
               next: (respone) => {
                 console.log(respone);
                 this.alerService.alert(
-                  AlertTypeEnum.success,
+                  AlertType.success,
                   'Success',
                   `${
                     items.length > 1 ? 'Categories were' : 'The category was'
@@ -326,7 +326,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
     // const ids = items.map((item) => item.id);
     // this.dialogService
     //   .openDilaog(
-    //     AlertTypeEnum.danger,
+    //     AlertType.danger,
     //     'Delete Confirmation',
     //     `Are you sure you want to delete ${
     //       items.length > 1 ? 'these categories' : 'this category'
@@ -347,7 +347,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
     //   .subscribe({
     //     next: () => {
     //       this.alerService.alert(
-    //         AlertTypeEnum.success,
+    //         AlertType.success,
     //         'Success',
     //         `${
     //           items.length > 1 ? 'Categories were' : 'The category was'

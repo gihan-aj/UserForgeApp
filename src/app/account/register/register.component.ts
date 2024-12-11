@@ -18,7 +18,7 @@ import { FirstKeyPipe } from '../../shared/pipes/first-key.pipe';
 import { AccountService } from '../account.service';
 import { ErrorHandlingService } from '../../shared/services/error-handling.service';
 import { AlertService } from '../../shared/services/alert.service';
-import { AlertTypeEnum } from '../../shared/enums/alert-type.enum';
+import { AlertType } from '../../shared/enums/alert-type.enum';
 import { AuthService } from '../../shared/services/auth.service';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 
@@ -167,7 +167,7 @@ export class RegisterComponent {
   ngOnInit(): void {
     if (this.authService.currentUserSig()) {
       this.snackBar.showNotification(
-        AlertTypeEnum.info,
+        AlertType.info,
         'You have already logged in.'
       );
       this.router.navigateByUrl('/dashboard');
@@ -182,7 +182,7 @@ export class RegisterComponent {
         next: (response) => {
           console.log(response);
           this.alertService.alert(
-            AlertTypeEnum.success,
+            AlertType.success,
             'User Created',
             'User created successfully. Check your email inbox for the activation link'
           );

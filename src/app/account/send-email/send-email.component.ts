@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../account.service';
 import { AlertService } from '../../shared/services/alert.service';
 import { ErrorHandlingService } from '../../shared/services/error-handling.service';
-import { AlertTypeEnum } from '../../shared/enums/alert-type.enum';
+import { AlertType } from '../../shared/enums/alert-type.enum';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
@@ -80,7 +80,7 @@ export class SendEmailComponent implements OnInit {
           this.accountService.resendActivationLink(email).subscribe({
             next: () => {
               this.alertService.alert(
-                AlertTypeEnum.success,
+                AlertType.success,
                 'Email Sent',
                 'Email sent successfully. Check you inbox.'
               );

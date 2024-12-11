@@ -22,7 +22,7 @@
     </li>
     }
     <mat-divider></mat-divider>
-    @if (auth.currentUserSig()) {
+    @if (userService.currentUserSig()) {
     <li>
       <a mat-button routerLinkActive="active" (click)="onLogout()"
         ><mat-icon>logout</mat-icon> <span>Sign Out</span>
@@ -32,7 +32,7 @@
     <li>
       <a
         mat-button
-        routerLink="account/login"
+        routerLink="user/login"
         routerLinkActive="active"
         (click)="menuItemClicked()"
         ><mat-icon>login</mat-icon> <span>Sign In</span>

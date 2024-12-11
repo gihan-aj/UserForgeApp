@@ -20,7 +20,7 @@
     [mat-menu-trigger-for]="userMenu"
     matTooltip="User menu"
   >
-    @if (authService.currentUserSig()) {
+    @if (userService.currentUserSig()) {
     <mat-icon class="user-display-text"
       ><strong>{{ userDisplayText() }}</strong></mat-icon
     >
@@ -46,27 +46,27 @@
 </mat-toolbar>
 
 <mat-menu #userMenu="matMenu">
-  @if (authService.currentUserSig()) {
-  <button routerLink="account/user-profile" mat-menu-item>
+  @if (userService.currentUserSig()) {
+  <button routerLink="user/user-profile" mat-menu-item>
     <mat-icon>person</mat-icon>
     <span>View profile</span>
   </button>
-  } @if (!authService.currentUserSig()) {
-  <button routerLink="account/login" mat-menu-item>
+  } @if (!userService.currentUserSig()) {
+  <button routerLink="user/login" mat-menu-item>
     <mat-icon>login</mat-icon>
     <span>Log in</span>
   </button>
-  } @if (!authService.currentUserSig()) {
-  <button routerLink="account/register" mat-menu-item>
+  } @if (!userService.currentUserSig()) {
+  <button routerLink="user/register" mat-menu-item>
     <mat-icon>person_add</mat-icon>
     <span>Create new account</span>
   </button>
-  } @if (authService.currentUserSig()) {
-  <button routerLink="account/user-settings" mat-menu-item>
+  } @if (userService.currentUserSig()) {
+  <button routerLink="user/user-settings" mat-menu-item>
     <mat-icon>settings</mat-icon>
     <span>Settings</span>
   </button>
-  } @if (authService.currentUserSig()) {
+  } @if (userService.currentUserSig()) {
   <button (click)="onLogout()" mat-menu-item>
     <mat-icon>logout</mat-icon>
     <span>Log out</span>

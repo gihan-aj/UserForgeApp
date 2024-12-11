@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AlertService } from './alert.service';
-import { AlertTypeEnum } from '../enums/alert-type.enum';
+import { AlertType } from '../enums/alert-type.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +8,7 @@ import { AlertTypeEnum } from '../enums/alert-type.enum';
 export class ErrorHandlingService {
   private alertService = inject(AlertService);
 
-  private alertTypes = AlertTypeEnum;
+  private alertTypes = AlertType;
 
   handle(error: any): void {
     console.log('ERROR', error);

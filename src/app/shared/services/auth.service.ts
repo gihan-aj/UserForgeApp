@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment.development';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { SnackBarService } from './snack-bar.service';
-import { AlertTypeEnum } from '../enums/alert-type.enum';
+import { AlertType } from '../enums/alert-type.enum';
 import { DialogService } from './dialog.service';
 
 @Injectable({
@@ -29,7 +29,7 @@ export class AuthService {
     localStorage.setItem(REFRESH_TOKEN, credentials.refreshToken);
 
     this.snackBar.showNotification(
-      AlertTypeEnum.success,
+      AlertType.success,
       `${credentials.lastName} has logged in.`
     );
   }
@@ -37,7 +37,7 @@ export class AuthService {
   logout() {
     this.dialogService
       .openDilaog(
-        AlertTypeEnum.danger,
+        AlertType.danger,
         'Logout Confirmation',
         `Are you sure you want to log out ?`,
         'Yes'
@@ -48,7 +48,7 @@ export class AuthService {
           if (accepted) {
             this.currentUserSig.set(null);
             localStorage.clear();
-            this.router.navigateByUrl('account/login');
+            this.router.navigateByUrl('user/login');
           }
         },
       });
@@ -66,7 +66,7 @@ export class AuthService {
 
         this.currentUserSig.set(null);
         localStorage.clear();
-        this.router.navigateByUrl('account/login');
+        this.router.navigateByUrl('user/login');
 
         return throwError(() => error);
       })

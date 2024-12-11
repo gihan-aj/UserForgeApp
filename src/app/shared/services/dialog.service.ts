@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AlertTypeEnum } from '../enums/alert-type.enum';
+import { AlertType } from '../enums/alert-type.enum';
 import { DialogComponent } from '../components/dialog/dialog.component';
 import { DialogInterface } from '../models/dialog.interface';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ export class DialogService {
   readonly dialog = inject(MatDialog);
 
   openDilaog(
-    type: AlertTypeEnum,
+    type: AlertType,
     title: string,
     text: string,
     action: string
