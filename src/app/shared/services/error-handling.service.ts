@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { AlertService } from './alert.service';
-import { AlertType } from '../enums/alert-type.enum';
+import { NotificationType } from '../enums/notification-type.enum';
+import { UNKNOWN_ERROR } from '../constants/unknown-error';
+import { HTTP_ERROR_MESSAGES } from '../constants/http-error-messages';
 
 @Injectable({
   providedIn: 'root',
@@ -8,47 +10,40 @@ import { AlertType } from '../enums/alert-type.enum';
 export class ErrorHandlingService {
   private alertService = inject(AlertService);
 
-  private alertTypes = AlertType;
+  private notificationTypes = NotificationType;
 
   handle(error: any): void {
     console.log('ERROR', error);
     if (error?.error?.title) {
-      this.alertService.alert(
-        this.alertTypes.danger,
+      this.alertService.showAlert(
+        this.notificationTypes.danger,
         error.error.title,
         `${error.error.detail} (${error.status})`,
         error.error.errors!
       );
     } else {
-      let title = 'Unknown Error';
-      let message = 'Unidentified error occured';
+      const httpError = this.handleHttpError(error);
 
-      switch (error.status) {
-        case 0:
-          (title = 'Offline'), (message = 'Server connection lost.');
-          break;
+      const title = httpError.title;
+      const message = httpError.message;
 
-        case 401:
-          (title = 'Unauthorized'),
-            (message = 'Please login with valid credentials.');
-          break;
-
-        case 403:
-          (title = 'Forbidden'),
-            (message = 'You have no permission to perform this action.');
-          break;
-
-        case 404:
-          (title = 'Not Found'),
-            (message = 'The resource you are looking was not found.');
-          break;
-      }
-
-      this.alertService.alert(
-        this.alertTypes.danger,
+      this.alertService.showAlert(
+        this.notificationTypes.danger,
         title,
         `${message} (${error.status})`
       );
     }
+  }
+
+  private handleHttpError(error: { status: number }): {
+    title: string;
+    message: string;
+  } {
+    const defaultError = {
+      title: UNKNOWN_ERROR.title,
+      message: UNKNOWN_ERROR.message,
+    };
+
+    return HTTP_ERROR_MESSAGES[error.status] || defaultError;
   }
 }

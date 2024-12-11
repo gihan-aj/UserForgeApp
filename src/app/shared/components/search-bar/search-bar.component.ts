@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import { SortOrderEnum } from '../../enums/sort-order.enum';
+import { SortOrder } from '../../enums/sort-order.enum';
 import { FormatHeaderPipe } from '../../pipes/format-header.pipe';
 
 @Component({
@@ -31,6 +31,6 @@ export class SearchBarComponent {
   sortByOptions = input.required<string[]>();
   sortBy = model.required<string>();
   // Sort order
-  sortOrderTypes = SortOrderEnum;
-  sortOrder = model.required<SortOrderEnum>();
+  sortOrderTypes = SortOrder;
+  sortOrder = model.required<SortOrder>();
 }

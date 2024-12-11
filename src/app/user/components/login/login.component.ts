@@ -5,19 +5,22 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { UserService } from '../../services/user.service';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
-import { ErrorHandlingService } from '../../../shared/services/error-handling.service';
-import { MessageService } from '../../../shared/services/message.service';
-import { AlertType } from '../../../shared/enums/alert-type.enum';
-import { LoginRequest } from '../../models/login-request.model';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+
+import { UserService } from '../../services/user.service';
+import { ErrorHandlingService } from '../../../shared/services/error-handling.service';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { FirstKeyPipe } from '../../../shared/pipes/first-key.pipe';
+
+import { LoginRequest } from '../../models/login-request.model';
+import { NotificationType } from '../../../shared/enums/notification-type.enum';
+import { EMAIL_MAX_LENGTH } from '../../../shared/constants/constraints';
+import { MESSAGES } from '../../../shared/constants/messages';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FirstKeyPipe } from '../../../shared/pipes/first-key.pipe';
-import { EMAIL_MAX_LENGTH } from '../../../shared/constants/constraints';
 
 @Component({
   selector: 'app-login',
@@ -40,23 +43,17 @@ export class LoginComponent {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private userService = inject(UserService);
-  private snackBar = inject(SnackBarService);
+  private notificationService = inject(NotificationService);
   private errorHandling = inject(ErrorHandlingService);
-  private messageService = inject(MessageService);
 
   private returnUrl: string | null = null;
 
   constructor() {
     if (this.userService.currentUserSig()) {
-      const message = this.messageService.getMassage(
-        'user',
-        'notifications',
-        'info',
-        'alreadyLoggedIn'
+      this.notificationService.showNotification(
+        NotificationType.info,
+        MESSAGES.user.notifications.info.alreadyLoggedIn
       );
-
-      this.snackBar.showNotification(AlertType.info, message);
-
       this.router.navigateByUrl('./dashboard');
     } else {
       this.activatedRoute.queryParamMap.subscribe({

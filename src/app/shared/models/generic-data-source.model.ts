@@ -1,7 +1,7 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { SortOrderEnum } from '../enums/sort-order.enum';
-import { PagedListInterface } from './paged-list.interface';
+import { SortOrder } from '../enums/sort-order.enum';
+import { PagedList } from './paged-list.interface';
 import { ErrorHandlingService } from '../services/error-handling.service';
 
 export class GenericDataSource<T> implements DataSource<T> {
@@ -23,9 +23,9 @@ export class GenericDataSource<T> implements DataSource<T> {
         page: number,
         pageSize: number,
         sortColumn?: string,
-        sortOrder?: SortOrderEnum,
+        sortOrder?: SortOrder,
         searchTerm?: string
-      ) => Observable<PagedListInterface<T>>;
+      ) => Observable<PagedList<T>>;
     },
     private errorHandling: ErrorHandlingService
   ) {}
@@ -43,7 +43,7 @@ export class GenericDataSource<T> implements DataSource<T> {
     page: number,
     pageSize: number,
     sortColumn?: string,
-    sortOrder?: SortOrderEnum,
+    sortOrder?: SortOrder,
     searchTerm?: string
   ): void {
     this.loadingSubject.next(true);

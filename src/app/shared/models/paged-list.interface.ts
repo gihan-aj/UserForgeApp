@@ -1,4 +1,4 @@
-export interface PagedListInterface<T> {
+export interface PagedList<T> {
   items: T[];
   page: number;
   pageSize: number;

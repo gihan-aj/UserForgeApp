@@ -2,7 +2,7 @@ import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Observable } from 'rxjs';
-import { PagedListInterface } from '../../shared/models/paged-list.interface';
+import { PagedList } from '../../shared/models/paged-list.interface';
 import { BulkRequest } from '../../shared/models/bulk-request.interface';
 import { CategoryInterface } from './category.interface';
 
@@ -21,7 +21,7 @@ export class CategoryConfigurationService {
     sortColumn?: string,
     sortOrder?: string,
     searchTerm?: string
-  ): Observable<PagedListInterface<CategoryInterface>> {
+  ): Observable<PagedList<CategoryInterface>> {
     const url = this.baseUrl;
 
     let queryParams = new HttpParams();
@@ -37,7 +37,7 @@ export class CategoryConfigurationService {
     queryParams = queryParams.append('page', page.toString());
     queryParams = queryParams.append('pageSize', pageSize.toString());
 
-    return this.http.get<PagedListInterface<CategoryInterface>>(url, {
+    return this.http.get<PagedList<CategoryInterface>>(url, {
       params: queryParams,
     });
   }

@@ -1,16 +1,21 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
-import { SnackBarService } from '../services/snack-bar.service';
-import { AlertType } from '../enums/alert-type.enum';
+import { NotificationService } from '../services/notification.service';
+import { NotificationType } from '../enums/notification-type.enum';
+import { MESSAGES } from '../constants/messages';
+import { UserService } from '../../user/services/user.service';
 
 export const loginGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
+  const userService = inject(UserService);
   const router = inject(Router);
-  const snackBar = inject(SnackBarService);
+  const notificationService = inject(NotificationService);
 
-  if (authService.currentUserSig()) {
-    snackBar.showNotification(AlertType.info, 'You have already logged in.');
+  if (userService.currentUserSig()) {
+    notificationService.showNotification(
+      NotificationType.info,
+      MESSAGES.user.notifications.info.alreadyLoggedIn
+    );
+
     router.navigateByUrl('/dashboard');
     return false;
   } else {

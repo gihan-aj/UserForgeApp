@@ -8,7 +8,6 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.component';
 import { BreadcrumbService } from './shared/components/breadcrumb/breadcrumb.service';
 import { routerFadeIn } from './shared/animations/router-fade-in.animation';
-import { AuthService } from './shared/services/auth.service';
 
 @Component({
   selector: 'app-root',

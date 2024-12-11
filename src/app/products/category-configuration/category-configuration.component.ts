@@ -10,23 +10,23 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SearchBarComponent } from '../../shared/components/search-bar/search-bar.component';
-import { SortOrderEnum } from '../../shared/enums/sort-order.enum';
+import { SortOrder } from '../../shared/enums/sort-order.enum';
 import { environment } from '../../../environments/environment.development';
 import { TableComponent } from '../../shared/components/table/table.component';
-import { GenericDataSource } from '../../shared/models/generic-data-source';
+import { GenericDataSource } from '../../shared/models/generic-data-source.model';
 import { CategoryInterface } from './category.interface';
 import { CategoryConfigurationService } from './category-configuration.service';
 import { ErrorHandlingService } from '../../shared/services/error-handling.service';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
-import { DialogService } from '../../shared/services/dialog.service';
-import { AlertType } from '../../shared/enums/alert-type.enum';
 import { AlertService } from '../../shared/services/alert.service';
 import { Subject, switchMap, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { PopupTypeEnum } from '../../shared/enums/popup-type.enum';
-import { PopupInterface } from '../../shared/models/popup.interface';
+import { PopupType } from '../../shared/enums/popup-type.enum';
+import { Popup } from '../../shared/models/popup.interface';
 import { CategoryDialogComponent } from './category-dialog/category-dialog.component';
+import { ConfirmationService } from '../../shared/services/confirmation.service';
+import { NotificationType } from '../../shared/enums/notification-type.enum';
 
 @Component({
   selector: 'app-category-configuration',
@@ -47,7 +47,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
 
   private categoryService = inject(CategoryConfigurationService);
 
-  private dialogService = inject(DialogService);
+  private confirmationService = inject(ConfirmationService);
 
   private alerService = inject(AlertService);
 
@@ -83,7 +83,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
 
   searchTerm: string = '';
 
-  sortOrder: SortOrderEnum = SortOrderEnum.ascending;
+  sortOrder: SortOrder = SortOrder.ascending;
 
   sortBy = this.sortByOptions[0];
 
@@ -101,12 +101,12 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
     );
   }
 
-  private openPopup(type: PopupTypeEnum, data?: CategoryInterface) {
-    const popupData: PopupInterface<CategoryInterface> = {
+  private openPopup(type: PopupType, data?: CategoryInterface) {
+    const popupData: Popup<CategoryInterface> = {
       title:
-        type === PopupTypeEnum.Add
+        type === PopupType.Add
           ? 'Add Category'
-          : type === PopupTypeEnum.Edit
+          : type === PopupType.Edit
           ? 'Edit Category'
           : 'View Category',
 
@@ -120,11 +120,11 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        if (type === PopupTypeEnum.Add) {
+        if (type === PopupType.Add) {
           this.categoryService.add(result).subscribe({
             next: () => {
-              this.alerService.alert(
-                AlertType.success,
+              this.alerService.showAlert(
+                NotificationType.success,
                 'Success',
                 'Category was added successfully.'
               );
@@ -136,11 +136,11 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
               this.refresh();
             },
           });
-        } else if (type === PopupTypeEnum.Edit) {
+        } else if (type === PopupType.Edit) {
           this.categoryService.update(result).subscribe({
             next: () => {
-              this.alerService.alert(
-                AlertType.success,
+              this.alerService.showAlert(
+                NotificationType.success,
                 'Success',
                 'Category was updated successfully.'
               );
@@ -158,7 +158,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
   }
 
   addNewCategory() {
-    this.openPopup(PopupTypeEnum.Add);
+    this.openPopup(PopupType.Add);
   }
 
   getSearchTerm(str: string) {
@@ -171,7 +171,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
     this.refresh();
   }
 
-  getSortOrder(str: SortOrderEnum) {
+  getSortOrder(str: SortOrder) {
     this.sortOrder = str;
     this.refresh();
   }
@@ -183,13 +183,13 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
   }
 
   viewCategory(item: CategoryInterface) {
-    this.openPopup(PopupTypeEnum.View, item);
+    this.openPopup(PopupType.View, item);
   }
 
   editCategory(item: CategoryInterface) {
-    this.dialogService
-      .openDilaog(
-        AlertType.info,
+    this.confirmationService
+      .openConfirmationDialog(
+        NotificationType.info,
         'Edit Confirmation',
         `Are you sure you want to edit this category
         ?`,
@@ -199,7 +199,7 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (accepted) => {
           if (accepted) {
-            this.openPopup(PopupTypeEnum.Edit, item);
+            this.openPopup(PopupType.Edit, item);
           }
         },
       });
@@ -207,9 +207,9 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
 
   activateCategories(items: CategoryInterface[]) {
     const ids = items.map((item) => item.id);
-    this.dialogService
-      .openDilaog(
-        AlertType.info,
+    this.confirmationService
+      .openConfirmationDialog(
+        NotificationType.info,
         'Activate Confirmation',
         `Are you sure you want to activate ${
           items.length > 1 ? 'these categories' : 'this category'
@@ -229,8 +229,8 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
-          this.alerService.alert(
-            AlertType.success,
+          this.alerService.showAlert(
+            NotificationType.success,
             'Success',
             `${
               items.length > 1 ? 'Categories were' : 'The category was'
@@ -248,9 +248,9 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
 
   deactivateCategories(items: CategoryInterface[]) {
     const ids = items.map((item) => item.id);
-    this.dialogService
-      .openDilaog(
-        AlertType.info,
+    this.confirmationService
+      .openConfirmationDialog(
+        NotificationType.info,
         'Deactivate Confirmation',
         `Are you sure you want to deactivate ${
           items.length > 1 ? 'these categories' : 'this category'
@@ -270,8 +270,8 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
-          this.alerService.alert(
-            AlertType.success,
+          this.alerService.showAlert(
+            NotificationType.success,
             'Success',
             `${
               items.length > 1 ? 'Categories were' : 'The category was'
@@ -289,9 +289,9 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
 
   deleteCategories(items: CategoryInterface[]) {
     const ids = items.map((item) => item.id);
-    this.dialogService
-      .openDilaog(
-        AlertType.danger,
+    this.confirmationService
+      .openConfirmationDialog(
+        NotificationType.danger,
         'Delete Confirmation',
         `Are you sure you want to delete ${
           items.length > 1 ? 'these categories' : 'this category'
@@ -305,8 +305,8 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
             this.categoryService.delete(ids).subscribe({
               next: (respone) => {
                 console.log(respone);
-                this.alerService.alert(
-                  AlertType.success,
+                this.alerService.showAlert(
+                  NotificationType.success,
                   'Success',
                   `${
                     items.length > 1 ? 'Categories were' : 'The category was'
@@ -324,9 +324,9 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
         },
       });
     // const ids = items.map((item) => item.id);
-    // this.dialogService
-    //   .openDilaog(
-    //     AlertType.danger,
+    // this.confirmationService
+    //   .openConfirmationDialog(
+    //     NotificationType.danger,
     //     'Delete Confirmation',
     //     `Are you sure you want to delete ${
     //       items.length > 1 ? 'these categories' : 'this category'
@@ -346,8 +346,8 @@ export class CategoryConfigurationComponent implements OnInit, OnDestroy {
     //   )
     //   .subscribe({
     //     next: () => {
-    //       this.alerService.alert(
-    //         AlertType.success,
+    //       this.alerService.showAlert(
+    //         NotificationType.success,
     //         'Success',
     //         `${
     //           items.length > 1 ? 'Categories were' : 'The category was'

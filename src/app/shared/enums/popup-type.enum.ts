@@ -1,4 +1,4 @@
-export enum PopupTypeEnum {
+export enum PopupType {
   Add = 'add',
   Edit = 'edit',
   View = 'view',

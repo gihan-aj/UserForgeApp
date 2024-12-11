@@ -7,9 +7,9 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { PopupInterface } from '../../../shared/models/popup.interface';
+import { Popup } from '../../../shared/models/popup.interface';
 import { CategoryInterface } from '../category.interface';
-import { PopupTypeEnum } from '../../../shared/enums/popup-type.enum';
+import { PopupType } from '../../../shared/enums/popup-type.enum';
 import {
   FormBuilder,
   FormsModule,
@@ -41,11 +41,11 @@ import { CommonModule } from '@angular/common';
 })
 export class CategoryDialogComponent {
   readonly dialogRef = inject(MatDialogRef<CategoryDialogComponent>);
-  popupData = inject<PopupInterface<CategoryInterface>>(MAT_DIALOG_DATA);
+  popupData = inject<Popup<CategoryInterface>>(MAT_DIALOG_DATA);
   private fb = inject(FormBuilder);
 
   isViewMode = computed<boolean>(
-    () => this.popupData.popupType === PopupTypeEnum.View
+    () => this.popupData.popupType === PopupType.View
   );
 
   categoryForm = this.fb.group({

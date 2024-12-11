@@ -5,12 +5,12 @@ import { LoginRequest } from '../models/login-request.model';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { LoginResponse } from '../models/login-response.model';
 import { UserResponse } from '../models/user-response.model';
-import { REFRESH_TOKEN } from '../../shared/constants';
-import { SnackBarService } from '../../shared/services/snack-bar.service';
-import { DialogService } from '../../shared/services/dialog.service';
 import { MessageService } from '../../shared/services/message.service';
-import { AlertType } from '../../shared/enums/alert-type.enum';
 import { Router } from '@angular/router';
+import { REFRESH_TOKEN } from '../../shared/constants/refresh-token';
+import { NotificationType } from '../../shared/enums/notification-type.enum';
+import { NotificationService } from '../../shared/services/notification.service';
+import { ConfirmationService } from '../../shared/services/confirmation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +23,8 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private snackBar: SnackBarService,
-    private dialogService: DialogService,
+    private notificationService: NotificationService,
+    private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {}
 
@@ -37,14 +37,17 @@ export class UserService {
         if (response) {
           this.persistUserAndTokens(response);
 
+          const firstName = this.capitalizeFirstLetter(response.user.firstName);
+          const lastName = this.capitalizeFirstLetter(response.user.lastName);
           const message = this.messageService.getMassage(
-            'user',
-            'notifications',
-            'success',
-            'loggedIn',
-            { lastName: response.user.lastName }
+            'user.notifications.success.loggedIn',
+            { firstName: firstName, lastName: lastName }
           );
-          this.snackBar.showNotification(AlertType.success, message);
+
+          this.notificationService.showNotification(
+            NotificationType.success,
+            message
+          );
         }
       })
     );
@@ -70,28 +73,16 @@ export class UserService {
 
   public logout() {
     const title = this.messageService.getMassage(
-      'user',
-      'alerts',
-      'titles',
-      'logout'
+      'user.confirmations.titles.logout'
     );
-
     const message = this.messageService.getMassage(
-      'user',
-      'alerts',
-      'messages',
-      'logout'
+      'user.confirmations.messages.logout'
     );
-
     const action = this.messageService.getMassage(
-      'user',
-      'alerts',
-      'actions',
-      'logout'
+      'user.confirmations.actions.logout'
     );
-
-    this.dialogService
-      .openDilaog(AlertType.danger, title, message, action)
+    this.confirmationService
+      .openConfirmationDialog(NotificationType.danger, title, message, action)
       .afterClosed()
       .subscribe({
         next: (accepted) => {
@@ -138,5 +129,10 @@ export class UserService {
     this.currentUserSig.set(response.user);
     this.setAccessToken(response.accessToken);
     this.setRefresToken(response.refreshToken);
+  }
+
+  private capitalizeFirstLetter(text: string): string {
+    if (!text) return text;
+    return text.charAt(0).toUpperCase() + text.slice(1);
   }
 }

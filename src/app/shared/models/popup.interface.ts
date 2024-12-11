@@ -1,7 +1,7 @@
-import { PopupTypeEnum } from '../enums/popup-type.enum';
+import { PopupType } from '../enums/popup-type.enum';
 
-export interface PopupInterface<T> {
+export interface Popup<T> {
   title: string;
-  popupType: PopupTypeEnum;
+  popupType: PopupType;
   data: T | undefined;
 }

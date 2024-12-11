@@ -1,10 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AlertType } from '../enums/alert-type.enum';
-import { AlertComponent } from '../components/alert/alert.component';
-import { ActionTypeEnum } from '../enums/action-type.enum';
-import { EntityEnum } from '../enums/entity.enum';
-import { ErrorInterface } from '../models/error.interface';
+import { Error } from '../models/error.model';
+import { NotificationType } from '../enums/notification-type.enum';
+import { AlertDialogComponent } from '../components/alert-dialog/alert-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +10,11 @@ import { ErrorInterface } from '../models/error.interface';
 export class AlertService {
   readonly dialog = inject(MatDialog);
 
-  alert(
-    type: AlertType,
+  showAlert(
+    type: NotificationType,
     title: string,
     message: string,
-    description: ErrorInterface[] = []
+    description: Error[] = []
   ): void {
     let errors: string[] = [];
     if (description !== null && description.length > 0) {
@@ -24,35 +22,8 @@ export class AlertService {
         return e.description;
       });
     }
-    const dialogRef = this.dialog.open(AlertComponent, {
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
       data: { type: type, title: title, text: message, detail: errors },
     });
   }
-
-  // alertSuccess(
-  //   entity: EntityEnum,
-  //   actionType: ActionTypeEnum,
-  //   multipleRecords: boolean = false
-  // ) {
-  //   const type = AlertType.success;
-
-  //   let title: string = 'Success';
-  //   switch (actionType) {
-  //     case ActionTypeEnum.Add:
-  //       title = 'Added';
-  //       break;
-  //     case ActionTypeEnum.Updated:
-  //       title = 'Updated';
-  //       break;
-  //     case ActionTypeEnum.Activate:
-  //       title = 'Activated';
-  //       break;
-  //     case ActionTypeEnum.Deactivate:
-  //       title = 'Deactivated';
-  //       break;
-  //     case ActionTypeEnum.Deleted:
-  //       title = 'Deleted';
-  //       break;
-  //   }
-  // }
 }

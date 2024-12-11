@@ -13,8 +13,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { authInterceptor } from './shared/interceptors/auth.interceptor';
-import { AuthService } from './shared/services/auth.service';
-import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,10 +23,5 @@ export const appConfig: ApplicationConfig = {
       withInterceptorsFromDi()
     ),
     provideAnimationsAsync(),
-    importProvidersFrom(JwtModule.forRoot({ config: {} })),
   ],
 };
-
-export function tokenGetter() {
-  return localStorage.getItem('access_token');
-}

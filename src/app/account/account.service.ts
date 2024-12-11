@@ -4,14 +4,14 @@ import { environment } from '../../environments/environment.development';
 import { LoginRequestInterface } from './login/login-request.interface';
 import { map, Observable } from 'rxjs';
 import { UserProfileInterface } from './user-profile.interface';
-import { AuthService } from '../shared/services/auth.service';
+import { UserService } from '../user/services/user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountService {
   private http = inject(HttpClient);
-  private authService = inject(AuthService);
+  private authService = inject(UserService);
 
   private baseUrl: string = `${environment.baseUrl}/user`;
 
@@ -19,8 +19,8 @@ export class AccountService {
     const url = `${this.baseUrl}/login`;
     return this.http.post<UserProfileInterface>(url, request).pipe(
       map((user: UserProfileInterface) => {
-        if(user){
-          this.authService.login(user);
+        if (user) {
+          // this.authService.login(user);
         }
       })
     );

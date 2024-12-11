@@ -1,17 +1,17 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { SnackBarService } from '../services/snack-bar.service';
-import { AlertType } from '../enums/alert-type.enum';
 import { JwtTokenService } from '../services/jwt-token.service';
 import { UserService } from '../../user/services/user.service';
 import { MessageService } from '../services/message.service';
+import { NotificationService } from '../services/notification.service';
+import { NotificationType } from '../enums/notification-type.enum';
+import { MESSAGES } from '../constants/messages';
 
 export const authGuard: CanActivateFn = (route, state) => {
+  const router = inject(Router);
   const userService = inject(UserService);
   const jwtTokenService = inject(JwtTokenService);
-  const router = inject(Router);
-  const snackBar = inject(SnackBarService);
-  const messageService = inject(MessageService);
+  const notificationService = inject(NotificationService);
 
   if (userService.currentUserSig()) {
     const accessToken = userService.getAccessToken();
@@ -19,19 +19,14 @@ export const authGuard: CanActivateFn = (route, state) => {
       if (!jwtTokenService.isTokenExpired(accessToken)) {
         return true;
       }
-
       console.log('jwt has expired.');
     } else {
       userService.clearSession();
 
-      const message = messageService.getMassage(
-        'user',
-        'notifications',
-        'danger',
-        'loginFailed'
+      notificationService.showNotification(
+        NotificationType.danger,
+        MESSAGES.user.notifications.danger.loginFailed
       );
-
-      snackBar.showNotification(AlertType.danger, message);
 
       router.navigate(['/user/login'], {
         queryParams: { returnUrl: state.url },
@@ -54,14 +49,10 @@ export const authGuard: CanActivateFn = (route, state) => {
       error: (error) => {
         console.error(error);
 
-        const message = messageService.getMassage(
-          'user',
-          'notifications',
-          'danger',
-          'loginFailed'
+        notificationService.showNotification(
+          NotificationType.danger,
+          MESSAGES.user.notifications.danger.loginFailed
         );
-
-        snackBar.showNotification(AlertType.danger, message);
 
         router.navigate(['/user/login'], {
           queryParams: { returnUrl: state.url },
@@ -69,13 +60,10 @@ export const authGuard: CanActivateFn = (route, state) => {
       },
     });
   } else {
-    const message = messageService.getMassage(
-      'user',
-      'notifications',
-      'warning',
-      'loginFailed'
+    notificationService.showNotification(
+      NotificationType.warning,
+      MESSAGES.user.notifications.warning.loginFailed
     );
-    snackBar.showNotification(AlertType.warning, message);
 
     router.navigate(['/user/login'], {
       queryParams: { returnUrl: state.url },

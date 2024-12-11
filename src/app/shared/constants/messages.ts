@@ -1,16 +1,10 @@
-export const MESSAGES: {
-  [feature: string]: {
-    [category: string]: {
-      [type: string]: {
-        [key: string]: string;
-      };
-    };
-  };
-} = {
+import { Messages } from '../types/messages.type';
+
+export const MESSAGES: Messages = {
   user: {
     notifications: {
       success: {
-        loggedIn: 'Welcome! {lastName}, You have successfully logged in.',
+        loggedIn: 'Welcome! {firstName} {lastName}',
         created: 'User with email: {email}, was successfully created.',
         updated: 'User details updated sucessfully.',
       },
@@ -24,7 +18,7 @@ export const MESSAGES: {
         loginFailed: 'Access denied. You have to login again',
       },
     },
-    alerts: {
+    confirmations: {
       titles: {
         logout: 'Logout Confirmation',
       },

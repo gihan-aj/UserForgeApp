@@ -13,7 +13,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltip } from '@angular/material/tooltip';
-import { GenericDataSource } from '../../models/generic-data-source';
+import { GenericDataSource } from '../../models/generic-data-source.model';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FormatHeaderPipe } from '../../pipes/format-header.pipe';
 
