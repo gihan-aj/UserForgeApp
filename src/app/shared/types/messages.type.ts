@@ -27,5 +27,52 @@ export type Messages = {
         logout: string;
       };
     };
+    alerts: {
+      titles: {
+        registration: string;
+      };
+      messages: {
+        registration: string;
+      };
+    };
+    validations: {
+      registration: {
+        firstName: {
+          required: string;
+          minLength: string;
+          maxLength: string;
+        };
+        lastName: {
+          required: string;
+          minLength: string;
+          maxLength: string;
+        };
+        email: {
+          required: string;
+          invalid: string;
+        };
+        phoneNumber: {
+          invalid: string;
+        };
+        dateOfBirth: {
+          invalidAge: string;
+          invalidFormat: string;
+          genericError: string;
+        };
+        password: {
+          required: string;
+          minLength: string;
+          maxLength: string;
+          requireDigit: string;
+          requireLowercase: string;
+          requireUppercase: string;
+          requireNonAlphanumeric: string;
+        };
+        confirmPassword: {
+          required: string;
+          passwordMismatch: string;
+        };
+      };
+    };
   };
 };

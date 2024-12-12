@@ -1,0 +1,341 @@
+<div class="d-flex justify-content-center">
+  <div class="centered-md-container row d-flex justify-content-center">
+    <div class="col-md-5 col-12">
+      <h1>Sign Up</h1>
+      <p>Create your account.</p>
+    </div>
+    <div class="col-md-7 col-12">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div>
+          <div class="error-feedback">
+            @if (dataValidation.hasDisplayableError(form, 'firstName',
+            isSubmitted)) {
+            <ng-container [ngSwitch]="firstName?.errors | firstKey">
+              <div *ngSwitchCase="'required'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.firstName.required"
+                  )
+                }}
+                <!-- First name is <strong>required</strong> -->
+              </div>
+
+              <div *ngSwitchCase="'minlength'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.firstName.minLength",
+                    { firstNameMinLnegth: firstNameMinLength.toString() }
+                  )
+                }}
+              </div>
+
+              <div *ngSwitchCase="'maxlength'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.firstName.maxLength",
+                    { firstNameMaxLnegth: firstNameMaxLength.toString() }
+                  )
+                }}
+              </div>
+            </ng-container>
+            }@else {
+            <br />
+            }
+          </div>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>First Name</mat-label>
+            <input
+              matInput
+              type="text"
+              required
+              minlength="{{ firstNameMinLength }}"
+              maxlength="{{ firstNameMaxLength }}"
+              formControlName="firstName"
+            />
+          </mat-form-field>
+        </div>
+
+        <div>
+          <div class="error-feedback">
+            @if (dataValidation.hasDisplayableError(form, 'lastName',
+            isSubmitted)) {
+            <ng-container [ngSwitch]="lastName?.errors | firstKey">
+              <div *ngSwitchCase="'required'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.lastName.required"
+                  )
+                }}
+              </div>
+
+              <div *ngSwitchCase="'minlength'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.lastName.minLength",
+                    { lastNameMinLnegth: lastNameMinLength.toString() }
+                  )
+                }}
+              </div>
+
+              <div *ngSwitchCase="'maxlength'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.lastName.maxLength",
+                    { lastNameMaxLnegth: lastNameMaxLength.toString() }
+                  )
+                }}
+              </div>
+            </ng-container>
+            }@else {
+            <br />
+            }
+          </div>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Last Name</mat-label>
+            <input
+              matInput
+              type="text"
+              required
+              minlength="{{ lastNameMinLength }}"
+              maxlength="{{ lastNameMaxLength }}"
+              formControlName="lastName"
+            />
+          </mat-form-field>
+        </div>
+
+        <div>
+          <div class="error-feedback">
+            @if (dataValidation.hasDisplayableError(form, 'email', isSubmitted))
+            {
+            <ng-container [ngSwitch]="email?.errors | firstKey">
+              <div *ngSwitchCase="'required'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.email.required"
+                  )
+                }}
+              </div>
+
+              <div *ngSwitchCase="'email'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.email.invalid"
+                  )
+                }}
+              </div>
+            </ng-container>
+            }@else {
+            <br />
+            }
+          </div>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              type="email"
+              required
+              maxlength="{{ emailMaxLength }}"
+              formControlName="email"
+            />
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="error-feedback">
+              @if (dataValidation.hasDisplayableError(form, 'phoneNumber',
+              isSubmitted)) {
+              <ng-container [ngSwitch]="phoneNumber?.errors | firstKey">
+                <div *ngSwitchCase="'pattern'">
+                  {{
+                    messageService.getMassage(
+                      "user.validations.registration.phoneNumber.invalid"
+                    )
+                  }}
+                </div>
+              </ng-container>
+              }@else {
+              <br />
+              }
+            </div>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Phone number</mat-label>
+              <input matInput type="text" formControlName="phoneNumber" />
+              <mat-hint>Format: +1234567890</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="error-feedback">
+              @if (dataValidation.hasDisplayableError(form, 'dateOfBirth',
+              isSubmitted)) {
+              <ng-container [ngSwitch]="dateOfBirth?.errors | firstKey">
+                <div *ngSwitchCase="'invalidAge'">
+                  {{
+                    messageService.getMassage(
+                      "user.validations.registration.dateOfBirth.invalidAge",
+                      { minAge: minAge.toString() }
+                    )
+                  }}
+                </div>
+                <div *ngSwitchCase="'matDatepickerParse'">
+                  {{
+                    messageService.getMassage(
+                      "user.validations.registration.dateOfBirth.invalidFormat"
+                    )
+                  }}
+                </div>
+              </ng-container>
+              }@else {
+              <br />
+              }
+            </div>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Date of birth</mat-label>
+              <input
+                matInput
+                [matDatepicker]="dob"
+                formControlName="dateOfBirth"
+              />
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="dob"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #dob></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div>
+          <div class="error-feedback">
+            @if (dataValidation.hasDisplayableError(form,'password',
+            isSubmitted)) {
+            <ng-container [ngSwitch]="password?.errors | firstKey">
+              <div *ngSwitchCase="'required'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.password.required"
+                  )
+                }}
+              </div>
+
+              <div *ngSwitchCase="'minlength'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.password.minLength"
+                  )
+                }}
+              </div>
+
+              <div *ngSwitchCase="'maxlength'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.password.maxLength"
+                  )
+                }}
+              </div>
+
+              <div *ngSwitchCase="'requireDigit'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.password.requireDigit"
+                  )
+                }}
+              </div>
+
+              <div *ngSwitchCase="'requireLowercase'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.password.requireLowercase"
+                  )
+                }}
+              </div>
+
+              <div *ngSwitchCase="'requireUppercase'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.password.requireUppercase"
+                  )
+                }}
+              </div>
+
+              <div *ngSwitchCase="'requireNonAlphanumeric'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.password.requireNonAlphanumeric"
+                  )
+                }}
+              </div>
+            </ng-container>
+            }@else {
+            <br />
+            }
+          </div>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Password</mat-label>
+            <input
+              required
+              minlength="{{ passwordMinLength }}"
+              matInput
+              type="password"
+              formControlName="password"
+            />
+          </mat-form-field>
+        </div>
+
+        <div>
+          <div class="error-feedback">
+            @if (dataValidation.hasDisplayableError(form,'confirmPassword',
+            isSubmitted)) {
+            <ng-container [ngSwitch]="confirmPassword?.errors | firstKey">
+              <div *ngSwitchCase="'required'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.confirmPassword.required"
+                  )
+                }}
+              </div>
+
+              <div *ngSwitchCase="'passwordMismatch'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.confirmPassword.passwordMismatch"
+                  )
+                }}
+              </div>
+            </ng-container>
+            }@else {
+            <br />
+            }
+          </div>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Confirm Password</mat-label>
+            <input
+              matInput
+              type="password"
+              minlength="{{ passwordMinLength }}"
+              maxlength="{{ passwordMaxLength }}"
+              required
+              formControlName="confirmPassword"
+            />
+          </mat-form-field>
+        </div>
+
+        <div class="d-flex align-items-end justify-content-end mt-3 gap-3">
+          <a [disabled]="isRequestPending" mat-button routerLink="/user/login"
+            >Already have an account?</a
+          >
+          <button [disabled]="isRequestPending" mat-flat-button type="submit">
+            Sign up
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

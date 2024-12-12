@@ -29,5 +29,61 @@ export const MESSAGES: Messages = {
         logout: 'Yes',
       },
     },
+    alerts: {
+      titles: {
+        registration: 'Account Created',
+      },
+      messages: {
+        registration: 'Please check your email to confirm your account.',
+      },
+    },
+    validations: {
+      registration: {
+        firstName: {
+          required: 'First name is required.',
+          minLength:
+            'First name must be at least {firstNameMinLnegth} characters long.',
+          maxLength:
+            'First name must be maximum {firstNameMaxLnegth} characters long.',
+        },
+        lastName: {
+          required: 'Last name is required.',
+          minLength:
+            'Last name must be at least {lastNameMinLnegth} characters long.',
+          maxLength:
+            'Last name must be maximum {lastNameMaxLnegth} characters long.',
+        },
+        email: {
+          required: 'Email is required.',
+          invalid: 'Email is invalid',
+        },
+        phoneNumber: {
+          invalid: 'Phoen number is invalid',
+        },
+        dateOfBirth: {
+          invalidAge: 'You must be at least {minAge} years old.',
+          invalidFormat: 'Please enter a valid date in MM/DD/YYYY format.',
+          genericError: 'Invalid date of birth.',
+        },
+        password: {
+          required: 'Password is required.',
+          minLength:
+            'Password must be at least {passwordMinLength} characters long.',
+          maxLength:
+            'Password must be maximum {passwordMaxLength} characters long.',
+          requireDigit: 'Password must contain at least one digit.',
+          requireLowercase:
+            'Password must contain at least one lowercase letter',
+          requireUppercase:
+            'Password must contain at least one uppercase letter',
+          requireNonAlphanumeric:
+            'Password must contain at least one non-alphanumeric character.',
+        },
+        confirmPassword: {
+          required: 'Confirm Password is required',
+          passwordMismatch: 'Password mismatch',
+        },
+      },
+    },
   },
 };

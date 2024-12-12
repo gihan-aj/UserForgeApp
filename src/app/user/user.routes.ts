@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { loginGuard } from '../shared/guards/login.guard';
-import { RegisterComponent } from './components/register/register.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 export const routes: Routes = [
   {
@@ -11,8 +11,9 @@ export const routes: Routes = [
     canActivate: [loginGuard],
   },
   {
-    path: 'register',
-    component: RegisterComponent,
-    data: { breadcrumb: 'Register' },
+    path: 'registration',
+    component: RegistrationComponent,
+    data: { breadcrumb: 'Registration' },
+    canActivate: [loginGuard],
   },
 ];

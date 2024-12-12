@@ -18,9 +18,6 @@ import { FirstKeyPipe } from '../../shared/pipes/first-key.pipe';
 import { AccountService } from '../account.service';
 import { ErrorHandlingService } from '../../shared/services/error-handling.service';
 import { AlertService } from '../../shared/services/alert.service';
-import { AlertType } from '../../shared/enums/alert-type.enum';
-import { AuthService } from '../../shared/services/auth.service';
-import { SnackBarService } from '../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-register',
@@ -39,7 +36,7 @@ import { SnackBarService } from '../../shared/services/snack-bar.service';
   styleUrl: './register.component.scss',
   animations: [errorFeedbackAnimation],
 })
-export class RegisterComponent {
+export class RegistrationComponent {
   fb = inject(FormBuilder);
   private router = inject(Router);
   private accountService = inject(AccountService);

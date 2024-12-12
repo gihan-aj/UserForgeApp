@@ -39,6 +39,70 @@ export class DataValidationService {
     };
   }
 
+  ageOver16Validator: ValidatorFn = (
+    control: AbstractControl
+  ): ValidationErrors | null => {
+    const date = new Date(control.value);
+    const today = new Date();
+    const age = today.getFullYear() - date.getFullYear();
+    const isOldEnough =
+      age > 16 ||
+      (age === 16 &&
+        (today.getMonth() > date.getMonth() ||
+          (today.getMonth() === today.getMonth() &&
+            today.getDate() >= date.getDate())));
+
+    return isOldEnough ? null : { invalidAge: true };
+  };
+
+  // minimumAgeValidator: ValidatorFn = (
+  //   control: AbstractControl
+  // ): ValidationErrors | null => {
+  //   const dateOfBirth = control.value;
+  //   if (!dateOfBirth) {
+  //     return null;
+  //   }
+
+  //   const today = new Date();
+  //   const birthDate = new Date(dateOfBirth);
+  //   const age = today.getFullYear() - birthDate.getFullYear();
+  //   const monthDifference = today.getMonth() - birthDate.getMonth();
+
+  //   if (
+  //     age === minAge &&
+  //     (monthDifference < 0 ||
+  //       (monthDifference === 0 && today.getDate() < birthDate.getDate()))
+  //   ) {
+  //     return { invalidAge: true };
+  //   }
+
+  //   return age >= minAge ? null : { invalidAge: true };
+  // };
+
+  minimumAgeValidator = (minAge: number): ValidatorFn => {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const dateOfBirth = control.value;
+      if (!dateOfBirth) {
+        return null;
+      }
+
+      const today = new Date();
+      const birthDate = new Date(dateOfBirth);
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const monthDifference = today.getMonth() - birthDate.getMonth();
+
+      if (
+        age === minAge &&
+        (monthDifference < 0 ||
+          (monthDifference === 0 && today.getDate() < birthDate.getDate()))
+      ) {
+        return { invalidAge: true };
+      }
+
+      return age >= minAge ? null : { invalidAge: true };
+    };
+  };
+
   passwordMatchValidator: ValidatorFn = (control: AbstractControl): null => {
     const password = control.get('password');
     const confirmPassword = control.get('confirmPassword');

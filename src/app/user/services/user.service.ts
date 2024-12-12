@@ -11,6 +11,7 @@ import { REFRESH_TOKEN } from '../../shared/constants/refresh-token';
 import { NotificationType } from '../../shared/enums/notification-type.enum';
 import { NotificationService } from '../../shared/services/notification.service';
 import { ConfirmationService } from '../../shared/services/confirmation.service';
+import { RegsitrationRequest } from '../models/registration-request';
 
 @Injectable({
   providedIn: 'root',
@@ -134,5 +135,13 @@ export class UserService {
   private capitalizeFirstLetter(text: string): string {
     if (!text) return text;
     return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
+  // Registraion
+  public register(
+    request: RegsitrationRequest
+  ): Observable<{ message: string }> {
+    const url = `${this.baseUrl}/register`;
+    return this.http.post<{ message: string }>(url, request);
   }
 }
