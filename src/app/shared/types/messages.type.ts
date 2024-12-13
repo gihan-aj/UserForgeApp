@@ -33,11 +33,13 @@ export type Messages = {
           registrationSuccess: string;
           emailConfirmed: string;
           emailConfirmationLinkResent: string;
+          passwordResetLinkSent: string;
         };
         messages: {
           registrationSuccess: string;
           emailConfirmed: string;
           emailConfirmationLinkResent: string;
+          passwordResetLinkSent: string;
         };
       };
       danger: {

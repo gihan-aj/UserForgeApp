@@ -106,6 +106,16 @@ export class LoginComponent {
         error: (error) => {
           this.errorHandling.handle(error);
           this.isRequestPending = false;
+
+          if (
+            error.error &&
+            error.error.type &&
+            error.error.type === 'EmailNotConfirmed'
+          ) {
+            this.router.navigateByUrl(
+              '/user/send-email/resend-email-confirmation-link'
+            );
+          }
         },
       });
     }

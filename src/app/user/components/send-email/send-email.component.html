@@ -1,62 +1,86 @@
 <div class="d-flex justify-content-center">
-  <div class="centered-md-container d-flex flex-column text-center">
-    <form [formGroup]="form" (submit)="onSubmit()">
-      <div>
-        <div class="error-feedback">
-          @if (dataValidation.hasDisplayableError(form, 'email', isSubmitted)) {
-          <ng-container [ngSwitch]="email?.errors | firstKey">
-            <div *ngSwitchCase="'required'">
-              {{
-                messageService.getMassage(
-                  "user.validations.registration.email.required"
-                )
-              }}
-            </div>
+  <div class="centered-md-container row d-flex justify-content-center">
+    <div class="col-md-5 col-12">
+      <p *ngIf="mode?.includes('resend-email-confirmation-link')">
+        Enter your email to send email confirmation link.
+      </p>
+      <p *ngIf="mode?.includes('forgot-password')">
+        Enter your email to send password reset link.
+      </p>
+    </div>
 
-            <div *ngSwitchCase="'email'">
-              {{
-                messageService.getMassage(
-                  "user.validations.registration.email.invalid"
-                )
-              }}
-            </div>
-          </ng-container>
-          }@else {
-          <br />
-          }
+    <div class="col-md-7 col-12">
+      <form [formGroup]="form" (submit)="onSubmit()">
+        <div>
+          <div class="error-feedback">
+            @if (dataValidation.hasDisplayableError(form, 'email', isSubmitted))
+            {
+            <ng-container [ngSwitch]="email?.errors | firstKey">
+              <div *ngSwitchCase="'required'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.email.required"
+                  )
+                }}
+              </div>
+
+              <div *ngSwitchCase="'email'">
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.email.invalid"
+                  )
+                }}
+              </div>
+            </ng-container>
+            }@else {
+            <br />
+            }
+          </div>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              type="email"
+              required
+              maxlength="{{ emailMaxLength }}"
+              formControlName="email"
+            />
+          </mat-form-field>
         </div>
 
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Email</mat-label>
-          <input
-            matInput
-            type="email"
-            required
-            maxlength="{{ emailMaxLength }}"
-            formControlName="email"
-          />
-        </mat-form-field>
-      </div>
-
-      <button
-        *ngIf="mode?.includes('resend-email-confirmation-link')"
-        class="mt-2"
-        [disabled]="isLoading"
-        mat-flat-button
-        type="submit"
-      >
-        Resend email confirmation link
-      </button>
-      <br />
-      <button
-        class="mt-2"
-        [disabled]="isLoading"
-        mat-button
-        type="button"
-        (click)="onCancel()"
-      >
-        Go to login page
-      </button>
-    </form>
+        <div
+          class="d-flex flex-lg-row align-items-end justify-content-end mt-2 gap-3 flex-column-reverse"
+        >
+          <button
+            class="mt-2"
+            [disabled]="isLoading"
+            mat-button
+            type="button"
+            (click)="onCancel()"
+          >
+            Go to login page
+          </button>
+          <button
+            *ngIf="mode?.includes('resend-email-confirmation-link')"
+            class="mt-2"
+            [disabled]="isLoading"
+            mat-flat-button
+            type="submit"
+          >
+            Resend email confirmation link
+          </button>
+          <button
+            *ngIf="mode?.includes('forgot-password')"
+            class="mt-2"
+            [disabled]="isLoading"
+            mat-flat-button
+            type="submit"
+          >
+            Send password reset link
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

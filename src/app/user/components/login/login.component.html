@@ -66,12 +66,14 @@
           <a
             [disabled]="isRequestPending"
             mat-button
-            routerLink="/account/forgot-password"
+            routerLink="/user/send-email/forgot-password"
             >Forgot passsword?</a
           >
         </div>
 
-        <div class="d-flex align-items-end justify-content-end mt-3 gap-3">
+        <div
+          class="d-flex flex-lg-row align-items-end justify-content-end mt-2 gap-3 flex-column-reverse"
+        >
           <a
             [disabled]="isRequestPending"
             mat-button

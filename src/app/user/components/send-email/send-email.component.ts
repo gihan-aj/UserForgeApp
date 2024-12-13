@@ -79,39 +79,13 @@ export class SendEmailComponent implements OnInit {
     this.isSubmitted = true;
 
     if (this.form.valid && this.mode) {
-      if (this.mode.includes('resend-email-confirmation-link')) {
-        const email = this.form.value.email;
-        if (email) {
-          this.isLoading = true;
-
-          this.userService.resendEmailConfirmationLink(email).subscribe({
-            next: () => {
-              this.alerService.showAlert(
-                NotificationType.success,
-                this.messageService.getMassage(
-                  'user.alerts.success.titles.emailConfirmationLinkResent'
-                ),
-                this.messageService.getMassage(
-                  'user.alerts.success.messages.emailConfirmationLinkResent'
-                )
-              );
-
-              this.isLoading = false;
-              this.form.reset();
-              this.isSubmitted = false;
-            },
-            error: (error) => {
-              if (
-                error &&
-                error.type &&
-                error.type === 'EmailAlreadyConfirmed'
-              ) {
-                this.router.navigateByUrl('/user/login');
-              }
-              this.errorHandling.handle(error);
-              this.isLoading = false;
-            },
-          });
+      const email = this.form.value.email;
+      if (email) {
+        this.isLoading = true;
+        if (this.mode.includes('resend-email-confirmation-link')) {
+          this.resendEmailConfirmationLink(email);
+        } else if (this.mode.includes('forgot-password')) {
+          this.sendPasswordResetLink(email);
         }
       }
     }
@@ -119,5 +93,56 @@ export class SendEmailComponent implements OnInit {
 
   onCancel(): void {
     this.router.navigateByUrl('user/login');
+  }
+
+  private resendEmailConfirmationLink(email: string) {
+    this.userService.resendEmailConfirmationLink(email).subscribe({
+      next: () => {
+        this.alerService.showAlert(
+          NotificationType.success,
+          this.messageService.getMassage(
+            'user.alerts.success.titles.emailConfirmationLinkResent'
+          ),
+          this.messageService.getMassage(
+            'user.alerts.success.messages.emailConfirmationLinkResent'
+          )
+        );
+
+        this.isLoading = false;
+        this.form.reset();
+        this.isSubmitted = false;
+      },
+      error: (error) => {
+        if (error && error.type && error.type === 'EmailAlreadyConfirmed') {
+          this.router.navigateByUrl('/user/login');
+        }
+        this.errorHandling.handle(error);
+        this.isLoading = false;
+      },
+    });
+  }
+
+  private sendPasswordResetLink(email: string) {
+    this.userService.SendPassowrdResetLink(email).subscribe({
+      next: () => {
+        this.alerService.showAlert(
+          NotificationType.success,
+          this.messageService.getMassage(
+            'user.alerts.success.titles.passwordResetLinkSent'
+          ),
+          this.messageService.getMassage(
+            'user.alerts.success.messages.passwordResetLinkSent'
+          )
+        );
+
+        this.isSubmitted = false;
+        this.isLoading = false;
+        this.form.reset();
+      },
+      error: (error) => {
+        this.errorHandling.handle(error);
+        this.isLoading = false;
+      },
+    });
   }
 }

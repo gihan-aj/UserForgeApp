@@ -165,4 +165,14 @@ export class UserService {
 
     return this.http.post<void>(url, {}, { params: queryParams });
   }
+
+  // Send passwaord change link
+  public SendPassowrdResetLink(email: string): Observable<void> {
+    const url = `${this.baseUrl}/send-password-reset-link`;
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('email', email);
+
+    return this.http.post<void>(url, {}, { params: queryParams });
+  }
 }

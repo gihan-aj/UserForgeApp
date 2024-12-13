@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountService } from '../account/account.service';
 import { ErrorHandlingService } from '../shared/services/error-handling.service';
 
 @Component({
@@ -10,10 +9,7 @@ import { ErrorHandlingService } from '../shared/services/error-handling.service'
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-  constructor(
-    private accountService: AccountService,
-    private errorHandling: ErrorHandlingService
-  ) {}
+  constructor(private errorHandling: ErrorHandlingService) {}
 
   callingName = '';
 
@@ -22,15 +18,5 @@ export class DashboardComponent implements OnInit {
     this.getUserprofile();
   }
 
-  getUserprofile() {
-    this.accountService.getUserProfile().subscribe({
-      next: (response) => {
-        this.callingName = response.lastName;
-        console.log(response);
-      },
-      error: (error) => {
-        this.errorHandling.handle(error);
-      },
-    });
-  }
+  getUserprofile() {}
 }
