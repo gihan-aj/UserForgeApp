@@ -123,7 +123,7 @@ export class SendEmailComponent implements OnInit {
   }
 
   private sendPasswordResetLink(email: string) {
-    this.userService.SendPassowrdResetLink(email).subscribe({
+    this.userService.sendPassowrdResetLink(email).subscribe({
       next: () => {
         this.alerService.showAlert(
           NotificationType.success,

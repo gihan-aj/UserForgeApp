@@ -4,30 +4,37 @@ import { loginGuard } from '../shared/guards/login.guard';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 import { SendEmailComponent } from './components/send-email/send-email.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    data: { breadcrumb: 'Login' },
+    data: { breadcrumb: 'login' },
     canActivate: [loginGuard],
   },
   {
     path: 'registration',
     component: RegistrationComponent,
-    data: { breadcrumb: 'Registration' },
+    data: { breadcrumb: 'registration' },
     canActivate: [loginGuard],
   },
   {
     path: 'confirm-email',
     component: ConfirmEmailComponent,
-    data: { breadcrumb: 'Confirm email' },
+    data: { breadcrumb: 'confirm email' },
     canActivate: [loginGuard],
   },
   {
     path: 'send-email/:mode',
     component: SendEmailComponent,
-    data: { breadcrumb: 'Send email' },
+    data: { breadcrumb: 'send email' },
+    canActivate: [loginGuard],
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
+    data: { breadcrumb: 'reset password' },
     canActivate: [loginGuard],
   },
 ];

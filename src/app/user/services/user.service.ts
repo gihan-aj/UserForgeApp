@@ -12,6 +12,7 @@ import { NotificationType } from '../../shared/enums/notification-type.enum';
 import { NotificationService } from '../../shared/services/notification.service';
 import { ConfirmationService } from '../../shared/services/confirmation.service';
 import { RegsitrationRequest } from '../models/registration-request';
+import { ResetPasswordRequest } from '../models/reset-password-request';
 
 @Injectable({
   providedIn: 'root',
@@ -167,12 +168,19 @@ export class UserService {
   }
 
   // Send passwaord change link
-  public SendPassowrdResetLink(email: string): Observable<void> {
+  public sendPassowrdResetLink(email: string): Observable<void> {
     const url = `${this.baseUrl}/send-password-reset-link`;
 
     let queryParams = new HttpParams();
     queryParams = queryParams.append('email', email);
 
     return this.http.post<void>(url, {}, { params: queryParams });
+  }
+
+  // Reset password
+  public resetPassword(request: ResetPasswordRequest): Observable<void> {
+    const url = `${this.baseUrl}/reset-password`;
+
+    return this.http.put<void>(url, request, {});
   }
 }

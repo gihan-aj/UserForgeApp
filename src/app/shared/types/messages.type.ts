@@ -34,22 +34,30 @@ export type Messages = {
           emailConfirmed: string;
           emailConfirmationLinkResent: string;
           passwordResetLinkSent: string;
+          passwordResetSuccessful: string;
         };
         messages: {
           registrationSuccess: string;
           emailConfirmed: string;
           emailConfirmationLinkResent: string;
           passwordResetLinkSent: string;
+          passwordResetSuccessful: string;
         };
       };
       danger: {
         titles: {
           registrationFailed: string;
+          emailConfirmationTokenError: string;
           emailConfirmationFailed: string;
+          passwordResetTokenError: string;
+          passwordResetFailed: string;
         };
         messages: {
           registrationFailed: string;
+          emailConfirmationTokenError: string;
           emailConfirmationFailed: string;
+          passwordResetTokenError: string;
+          passwordResetFailed: string;
         };
       };
     };

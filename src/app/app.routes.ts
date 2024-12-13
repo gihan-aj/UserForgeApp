@@ -38,12 +38,12 @@ export const routes: Routes = [
   {
     path: 'not-found',
     component: NotFoundComponent,
-    data: { breadcrumb: 'Not Found' },
+    data: { breadcrumb: 'not Found' },
   },
   {
     path: '**',
     component: NotFoundComponent,
     pathMatch: 'full',
-    data: { breadcrumb: 'Not Found' },
+    data: { breadcrumb: 'not Found' },
   },
 ];

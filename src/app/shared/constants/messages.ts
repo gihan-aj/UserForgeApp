@@ -36,6 +36,7 @@ export const MESSAGES: Messages = {
           emailConfirmed: 'Email Confirmed!',
           emailConfirmationLinkResent: 'Email Resent!',
           passwordResetLinkSent: 'Email sent!',
+          passwordResetSuccessful: 'Password is reset!'
         },
         messages: {
           registrationSuccess:
@@ -45,16 +46,25 @@ export const MESSAGES: Messages = {
             'Email confirmation link resent. Please check your inbox.',
           passwordResetLinkSent:
             'Password reset link sent. Please check your inbox.',
+            passwordResetSuccessful: 'You can login with the new password now.'
         },
       },
       danger: {
         titles: {
           registrationFailed: 'Account Creation Failed!',
+          emailConfirmationTokenError: 'Invalid Request!',
           emailConfirmationFailed: 'Email Confirmation Failed!',
+          passwordResetTokenError: 'Invalid Request!',
+          passwordResetFailed: 'Passward Reset Failed!',
         },
         messages: {
           registrationFailed: '',
+          emailConfirmationTokenError:
+            'Your request is invalid. Please try again with a new request.',
           emailConfirmationFailed: '',
+          passwordResetTokenError:
+            'Your request is invalid. Please try again with a new request.',
+          passwordResetFailed: 'Please try again later.',
         },
       },
     },

@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { NotificationService } from '../../../shared/services/notification.service';
 import { ErrorHandlingService } from '../../../shared/services/error-handling.service';
 import { AlertService } from '../../../shared/services/alert.service';
 import {
@@ -21,7 +20,6 @@ import {
   USER_MIN_AGE,
 } from '../../../shared/constants/constraints';
 import { DataValidationService } from '../../../shared/services/data-validation.service';
-import { RegsitrationRequest } from '../../models/registration-request';
 import { NotificationType } from '../../../shared/enums/notification-type.enum';
 import { MESSAGES } from '../../../shared/constants/messages';
 import { CommonModule } from '@angular/common';
@@ -57,7 +55,6 @@ export class RegistrationComponent {
   public messageService = inject(MessageService);
 
   constructor(
-    private router: Router,
     private userService: UserService,
     private errorHandling: ErrorHandlingService,
     private alertService: AlertService
