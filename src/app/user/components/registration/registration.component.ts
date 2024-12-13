@@ -57,6 +57,7 @@ export class RegistrationComponent {
   public messageService = inject(MessageService);
 
   constructor(
+    private router: Router,
     private userService: UserService,
     private errorHandling: ErrorHandlingService,
     private alertService: AlertService
@@ -162,13 +163,15 @@ export class RegistrationComponent {
 
           this.alertService.showAlert(
             NotificationType.success,
-            MESSAGES.user.alerts.titles.registration,
+            MESSAGES.user.alerts.success.titles.registrationSuccess,
             response.message
           );
 
+          // this.router.navigateByUrl('user/login');
+
           this.isRequestPending = false;
-          this.form.reset();
           this.form.markAsPristine();
+          this.form.reset();
           this.isSubmitted = false;
         },
         error: (error) => {

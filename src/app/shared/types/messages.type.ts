@@ -28,11 +28,25 @@ export type Messages = {
       };
     };
     alerts: {
-      titles: {
-        registration: string;
+      success: {
+        titles: {
+          registrationSuccess: string;
+          emailConfirmed: string;
+        };
+        messages: {
+          registrationSuccess: string;
+          emailConfirmed: string;
+        };
       };
-      messages: {
-        registration: string;
+      danger: {
+        titles: {
+          registrationFailed: string;
+          emailConfirmationFailed: string;
+        };
+        messages: {
+          registrationFailed: string;
+          emailConfirmationFailed: string;
+        };
       };
     };
     validations: {

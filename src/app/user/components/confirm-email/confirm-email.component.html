@@ -1,0 +1,25 @@
+<div class="d-flex justify-content-center">
+  <div
+    class="centered-md-container d-flex flex-column align-items-center text-center"
+  >
+    <app-progress-bar *ngIf="isLoading"></app-progress-bar>
+
+    <div *ngIf="!isLoading">
+      <ng-container *ngIf="isSuccess; else errorTemplate">
+        <h2>{{ messages.user.alerts.success.titles.emailConfirmed }}</h2>
+        <p>{{ messages.user.alerts.success.messages.emailConfirmed }}</p>
+        <button mat-flat-button routerLink="user/login">Log in</button>
+      </ng-container>
+
+      <ng-template #errorTemplate>
+        <h2>{{ messages.user.alerts.danger.titles.emailConfirmationFailed }}</h2>
+        <button
+          mat-button
+          routerLink="user/send-email/send-email-confirmation-link"
+        >
+          Resend confirmation link
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</div>

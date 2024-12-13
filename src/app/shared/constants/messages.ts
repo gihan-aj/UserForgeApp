@@ -30,11 +30,26 @@ export const MESSAGES: Messages = {
       },
     },
     alerts: {
-      titles: {
-        registration: 'Account Created',
+      success: {
+        titles: {
+          registrationSuccess: 'Account Created',
+          emailConfirmed: 'Email Confirmed!',
+        },
+        messages: {
+          registrationSuccess:
+            'Please check your inbox to confirm your account.',
+          emailConfirmed: 'Your email has been successfully confirmed.',
+        },
       },
-      messages: {
-        registration: 'Please check your email to confirm your account.',
+      danger: {
+        titles: {
+          registrationFailed: 'Account Creation Failed!',
+          emailConfirmationFailed: 'Email Confirmation Failed!',
+        },
+        messages: {
+          registrationFailed: '',
+          emailConfirmationFailed: '',
+        },
       },
     },
     validations: {

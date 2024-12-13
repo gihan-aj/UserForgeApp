@@ -1,4 +1,4 @@
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { LoginRequest } from '../models/login-request.model';
@@ -143,5 +143,16 @@ export class UserService {
   ): Observable<{ message: string }> {
     const url = `${this.baseUrl}/register`;
     return this.http.post<{ message: string }>(url, request);
+  }
+
+  // Confirm email
+  public confirmEmail(userId: string, token: string): Observable<void> {
+    const url = `${this.baseUrl}/confirm-email`;
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('userId', userId);
+    queryParams = queryParams.append('token', token);
+
+    return this.http.put<void>(url, null, { params: queryParams });
   }
 }
