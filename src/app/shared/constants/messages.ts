@@ -34,11 +34,14 @@ export const MESSAGES: Messages = {
         titles: {
           registrationSuccess: 'Account Created',
           emailConfirmed: 'Email Confirmed!',
+          emailConfirmationLinkResent: 'Email Resent!',
         },
         messages: {
           registrationSuccess:
             'Please check your inbox to confirm your account.',
           emailConfirmed: 'Your email has been successfully confirmed.',
+          emailConfirmationLinkResent:
+            'Email confirmation link resent. Please check your inbox',
         },
       },
       danger: {

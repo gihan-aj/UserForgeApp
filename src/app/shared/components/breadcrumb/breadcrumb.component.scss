@@ -11,6 +11,7 @@
   align-items: center;
   // color: #6c757d;
   color: var(--sys-on-primary-container);
+  font-size: 0.9rem;
 }
 
 .breadcrumb-item a {
@@ -20,7 +21,7 @@
 }
 
 .breadcrumb-item a:hover {
-  color: var(--sys-tertiary);
+  color: var(--sys-secondary);
 }
 
 .breadcrumb-item span {

@@ -8,16 +8,23 @@
       <ng-container *ngIf="isSuccess; else errorTemplate">
         <h2>{{ messages.user.alerts.success.titles.emailConfirmed }}</h2>
         <p>{{ messages.user.alerts.success.messages.emailConfirmed }}</p>
-        <button mat-flat-button routerLink="user/login">Log in</button>
+        <button mat-flat-button routerLink="/user/login">Log in</button>
       </ng-container>
 
       <ng-template #errorTemplate>
-        <h2>{{ messages.user.alerts.danger.titles.emailConfirmationFailed }}</h2>
+        <h2>
+          {{ messages.user.alerts.danger.titles.emailConfirmationFailed }}
+        </h2>
         <button
-          mat-button
-          routerLink="user/send-email/send-email-confirmation-link"
+          class="mt-2"
+          mat-flat-button
+          routerLink="/user/send-email/resend-email-confirmation-link"
         >
           Resend confirmation link
+        </button>
+        <br />
+        <button class="mt-2" mat-button routerLink="/user/login">
+          Go to login page
         </button>
       </ng-template>
     </div>

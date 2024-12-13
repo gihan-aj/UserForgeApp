@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProgressBarComponent } from '../../../shared/components/progress-bar/progress-bar.component';
 import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { ErrorHandlingService } from '../../../shared/services/error-handling.service';
 import { CommonModule } from '@angular/common';
@@ -17,6 +17,7 @@ import { MESSAGES } from '../../../shared/constants/messages';
 export class ConfirmEmailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private userService: UserService,
     private errorHandling: ErrorHandlingService
   ) {}
@@ -41,6 +42,15 @@ export class ConfirmEmailComponent implements OnInit {
           this.isSuccess = false;
 
           this.errorHandling.handle(error);
+          console.log(error.error.type);
+
+          if (
+            error.error &&
+            error.error.type &&
+            error.error.type === 'EmailAlreadyConfirmed'
+          ) {
+            this.router.navigateByUrl('/user/login');
+          }
         },
       });
     } else {

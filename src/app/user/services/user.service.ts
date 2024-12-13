@@ -155,4 +155,14 @@ export class UserService {
 
     return this.http.put<void>(url, null, { params: queryParams });
   }
+
+  // Resend email confirmation link
+  public resendEmailConfirmationLink(email: string): Observable<void> {
+    const url = `${this.baseUrl}/resend-email-confirmation-link`;
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('email', email);
+
+    return this.http.post<void>(url, {}, { params: queryParams });
+  }
 }

@@ -32,10 +32,12 @@ export type Messages = {
         titles: {
           registrationSuccess: string;
           emailConfirmed: string;
+          emailConfirmationLinkResent: string;
         };
         messages: {
           registrationSuccess: string;
           emailConfirmed: string;
+          emailConfirmationLinkResent: string;
         };
       };
       danger: {
