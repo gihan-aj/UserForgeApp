@@ -13,6 +13,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { ConfirmationService } from '../../shared/services/confirmation.service';
 import { RegsitrationRequest } from '../models/registration-request';
 import { ResetPasswordRequest } from '../models/reset-password-request';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -90,7 +91,7 @@ export class UserService {
         next: (accepted) => {
           if (accepted) {
             this.clearSession();
-            this.router.navigateByUrl('user/login');
+            this.router.navigateByUrl('/user/login');
           }
         },
       });
@@ -182,5 +183,24 @@ export class UserService {
     const url = `${this.baseUrl}/reset-password`;
 
     return this.http.put<void>(url, request, {});
+  }
+
+  // get user details
+  public getUserDetails() {
+    const url = `${this.baseUrl}`;
+
+    return this.http.get<any>(url).pipe(
+      map((data) => {
+        return new User(
+          data.id,
+          data.firstName,
+          data.lastName,
+          data.email,
+          data?.roles,
+          data?.phoneNumber,
+          data?.dateOfBirth ? new Date(data.dateOfBirth) : undefined
+        );
+      })
+    );
   }
 }

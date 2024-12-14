@@ -34,7 +34,8 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-h1 {
+h1,
+h2 {
   margin-top: 0;
   color: var(--sys-on-surface-variant);
 }
@@ -45,6 +46,7 @@ h1 {
   border: 1px solid var(--sys-outline-variant);
   padding: 2rem;
   border-radius: 2rem;
+  background-color: var(--sys-surface);
 }
 
 .error-feedback {

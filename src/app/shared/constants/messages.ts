@@ -16,6 +16,7 @@ export const MESSAGES: Messages = {
       },
       danger: {
         loginFailed: 'Access denied. You have to login again',
+        userProfileRetrievalFailed: 'User profile retrieval failed. Please login again.'
       },
     },
     confirmations: {

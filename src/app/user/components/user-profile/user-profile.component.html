@@ -1,0 +1,64 @@
+<div class="d-flex justify-content-center">
+  <div class="centered-md-container row d-flex justify-content-center">
+    <div
+      class="d-flex flex-lg-row text-lg-start align-items-center text-center flex-column"
+    >
+      <div class="profile-picture">
+        <img src="gray-avatar-placeholder.png" alt="Profile Picture" />
+      </div>
+      <div class="profile-details m-lg-2 mb-lg-0 mb-3">
+        <h2>{{ user?.fullName }}</h2>
+        <p>{{ user?.email }}</p>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="profile-info">
+      <mat-list>
+        <mat-list-item>
+          <mat-icon matListIcon>phone</mat-icon>
+          <span matLine>{{ user?.phoneNumber || "Not provided" }}</span>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListIcon>cake</mat-icon>
+          <span matLine>{{ user?.dateOfBirth | date }}</span>
+        </mat-list-item>
+      </mat-list>
+      <div
+        class="d-flex flex-lg-row align-items-end justify-content-end my-2 gap-3 flex-column-reverse"
+      >
+        <button mat-flat-button type="submit">Edit profile</button>
+      </div>
+    </div>
+  </div>
+  <!-- <mat-card class="user-profile-card">
+  <div class="profile-header">
+    <div mat-card-image class="profile-picture">
+      <img src="gray-avatar-placeholder.png" alt="Profile Picture" />
+    </div>
+    <div class="profile-details">
+      <h2>{{ user?.fullName }}</h2>
+      <p>{{ user?.email }}</p>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="profile-info">
+    <mat-list>
+      <mat-list-item>
+        <mat-icon matListIcon>phone</mat-icon>
+        <span matLine>{{ user?.phoneNumber || "Not provided" }}</span>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon matListIcon>cake</mat-icon>
+        <span matLine>{{ user?.dateOfBirth | date }}</span>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="editProfile()">
+      Edit Profile
+    </button>
+  </mat-card-actions>
+</mat-card> -->
+</div>

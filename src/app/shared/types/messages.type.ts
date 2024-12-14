@@ -14,6 +14,7 @@ export type Messages = {
       };
       danger: {
         loginFailed: string;
+        userProfileRetrievalFailed: string;
       };
     };
     confirmations: {

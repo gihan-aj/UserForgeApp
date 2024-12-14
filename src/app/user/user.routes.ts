@@ -5,6 +5,8 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 import { SendEmailComponent } from './components/send-email/send-email.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { authGuard } from '../shared/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -36,5 +38,11 @@ export const routes: Routes = [
     component: ResetPasswordComponent,
     data: { breadcrumb: 'reset password' },
     canActivate: [loginGuard],
+  },
+  {
+    path: 'user-profile',
+    component: UserProfileComponent,
+    data: { breadcrumb: 'user profile' },
+    canActivate: [authGuard],
   },
 ];
