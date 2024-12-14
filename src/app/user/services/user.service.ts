@@ -14,6 +14,8 @@ import { ConfirmationService } from '../../shared/services/confirmation.service'
 import { RegsitrationRequest } from '../models/registration-request';
 import { ResetPasswordRequest } from '../models/reset-password-request';
 import { User } from '../models/user.model';
+import { UserInterface } from '../models/user.interface';
+import { EditUserDetails } from '../models/edit-user-details.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -186,10 +188,10 @@ export class UserService {
   }
 
   // get user details
-  public getUserDetails() {
+  public getUserDetails(): Observable<User> {
     const url = `${this.baseUrl}`;
 
-    return this.http.get<any>(url).pipe(
+    return this.http.get<UserInterface>(url).pipe(
       map((data) => {
         return new User(
           data.id,
@@ -202,5 +204,12 @@ export class UserService {
         );
       })
     );
+  }
+
+  // Update user details
+  public updateUserDetails(request: EditUserDetails): Observable<void> {
+    const url = `${this.baseUrl}/update-user`;
+
+    return this.http.put<void>(url, request, {});
   }
 }

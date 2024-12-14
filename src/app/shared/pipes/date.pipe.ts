@@ -11,15 +11,17 @@ export class DatePipe implements PipeTransform {
     format: string = 'mediumDate',
     locale: string = 'en-US'
   ): string {
+    console.log(value);
+
     if (!value) {
-      return 'Not provided';
+      return "'Not provided'";
     }
 
     try {
       return formatDate(value, format, locale);
     } catch (error) {
       console.error('Invalid date format or value:', value);
-      return 'Invalid date';
+      return "'Invalid date'";
     }
   }
 }

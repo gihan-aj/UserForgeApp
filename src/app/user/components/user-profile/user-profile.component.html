@@ -22,13 +22,17 @@
         </mat-list-item>
         <mat-list-item>
           <mat-icon matListIcon>cake</mat-icon>
-          <span matLine>{{ user?.dateOfBirth | date }}</span>
+          <span matLine>{{
+            (user?.dateOfBirth | date) || "Not provided"
+          }}</span>
         </mat-list-item>
       </mat-list>
       <div
         class="d-flex flex-lg-row align-items-end justify-content-end my-2 gap-3 flex-column-reverse"
       >
-        <button mat-flat-button type="submit">Edit profile</button>
+        <button mat-flat-button type="button" (click)="editProfile()">
+          Edit profile
+        </button>
       </div>
     </div>
   </div>

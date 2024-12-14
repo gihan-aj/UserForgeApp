@@ -7,6 +7,7 @@ export const MESSAGES: Messages = {
         loggedIn: 'Welcome! {firstName} {lastName}',
         created: 'User with email: {email}, was successfully created.',
         updated: 'User details updated sucessfully.',
+        userUpdated: 'Your user profile has been updated successfully.',
       },
       info: {
         alreadyLoggedIn: 'You have already logged in.',
@@ -16,7 +17,9 @@ export const MESSAGES: Messages = {
       },
       danger: {
         loginFailed: 'Access denied. You have to login again',
-        userProfileRetrievalFailed: 'User profile retrieval failed. Please login again.'
+        userProfileRetrievalFailed:
+          'User profile retrieval failed. Please login again.',
+          userUpdateFailed: 'User profile update failed.'
       },
     },
     confirmations: {
@@ -37,7 +40,8 @@ export const MESSAGES: Messages = {
           emailConfirmed: 'Email Confirmed!',
           emailConfirmationLinkResent: 'Email Resent!',
           passwordResetLinkSent: 'Email sent!',
-          passwordResetSuccessful: 'Password is reset!'
+          passwordResetSuccessful: 'Password is reset!',
+          userUpdated: 'User Updated!',
         },
         messages: {
           registrationSuccess:
@@ -47,7 +51,8 @@ export const MESSAGES: Messages = {
             'Email confirmation link resent. Please check your inbox.',
           passwordResetLinkSent:
             'Password reset link sent. Please check your inbox.',
-            passwordResetSuccessful: 'You can login with the new password now.'
+          passwordResetSuccessful: 'You can login with the new password now.',
+          userUpdated: 'Your user profile has been updated successfully.',
         },
       },
       danger: {

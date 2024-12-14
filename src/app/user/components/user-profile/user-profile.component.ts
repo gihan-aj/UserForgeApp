@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { User } from '../../models/user.model';
 import { MatCardModule } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
@@ -12,6 +12,10 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { NotificationType } from '../../../shared/enums/notification-type.enum';
 import { MESSAGES } from '../../../shared/constants/messages';
 import { Router } from '@angular/router';
+import { UserInterface } from '../../models/user.interface';
+import { EditUserDetails } from '../../models/edit-user-details.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { EditUserDetailsDialogComponent } from './edit-user-details-dialog/edit-user-details-dialog.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -28,6 +32,8 @@ import { Router } from '@angular/router';
   styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent implements OnInit {
+  readonly dialog = inject(MatDialog);
+
   user: User | undefined;
 
   constructor(
@@ -38,9 +44,14 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getUserDetails();
+  }
+
+  private getUserDetails() {
     this.userService.getUserDetails().subscribe({
       next: (response) => {
         this.user = response;
+        console.log('When retrieve: ', response.dateOfBirth);
       },
       error: (error) => {
         this.errorHandling.handle(error);
@@ -57,6 +68,42 @@ export class UserProfileComponent implements OnInit {
   }
 
   editProfile() {
-    throw new Error('Method not implemented.');
+    const data: EditUserDetails = {
+      email: this.user?.email!,
+      firstName: this.user?.firstName!,
+      lastName: this.user?.lastName!,
+      phoneNumber: this.user?.phoneNumber,
+      dateOfBirth: this.user?.dateOfBirth,
+    };
+
+    const dialogRef = this.dialog.open(EditUserDetailsDialogComponent, {
+      data: data,
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (res: EditUserDetails) => {
+        if (res) {
+          console.log('When send: ', res.dateOfBirth);
+          this.userService.updateUserDetails(res).subscribe({
+            next: () => {
+              this.notificationService.showNotification(
+                NotificationType.success,
+                MESSAGES.user.notifications.success.userUpdated
+              );
+
+              this.getUserDetails();
+            },
+            error: (error) => {
+              this.errorHandling.handle(error);
+            },
+          });
+        } else {
+          this.notificationService.showNotification(
+            NotificationType.danger,
+            MESSAGES.user.notifications.danger.userUpdateFailed
+          );
+        }
+      },
+    });
   }
 }

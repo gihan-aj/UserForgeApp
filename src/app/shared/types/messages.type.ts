@@ -5,6 +5,7 @@ export type Messages = {
         loggedIn: string;
         created: string;
         updated: string;
+        userUpdated: string;
       };
       info: {
         alreadyLoggedIn: string;
@@ -15,6 +16,7 @@ export type Messages = {
       danger: {
         loginFailed: string;
         userProfileRetrievalFailed: string;
+        userUpdateFailed: string;
       };
     };
     confirmations: {
@@ -36,6 +38,7 @@ export type Messages = {
           emailConfirmationLinkResent: string;
           passwordResetLinkSent: string;
           passwordResetSuccessful: string;
+          userUpdated: string;
         };
         messages: {
           registrationSuccess: string;
@@ -43,6 +46,7 @@ export type Messages = {
           emailConfirmationLinkResent: string;
           passwordResetLinkSent: string;
           passwordResetSuccessful: string;
+          userUpdated: string;
         };
       };
       danger: {
