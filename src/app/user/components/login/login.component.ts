@@ -49,7 +49,7 @@ export class LoginComponent {
   private returnUrl: string | null = null;
 
   constructor() {
-    if (this.userService.currentUserSig()) {
+    if (this.userService.getUser()) {
       this.notificationService.showNotification(
         NotificationType.info,
         MESSAGES.user.notifications.info.alreadyLoggedIn

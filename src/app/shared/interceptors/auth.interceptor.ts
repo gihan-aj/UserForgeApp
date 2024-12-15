@@ -5,7 +5,7 @@ import { UserService } from '../../user/services/user.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const userService = inject(UserService);
-  const user = userService.currentUserSig();
+  const user = userService.getUser();
   const refreshToken = userService.getRefreshToken();
 
   if (user && refreshToken) {

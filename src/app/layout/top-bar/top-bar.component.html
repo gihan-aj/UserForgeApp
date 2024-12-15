@@ -20,9 +20,9 @@
     [mat-menu-trigger-for]="userMenu"
     matTooltip="User menu"
   >
-    @if (userService.currentUserSig()) {
+    @if (user) {
     <mat-icon class="user-display-text"
-      ><strong>{{ userDisplayText() }}</strong></mat-icon
+      ><strong>{{ userInitials }}</strong></mat-icon
     >
     }@else {
 
@@ -46,27 +46,27 @@
 </mat-toolbar>
 
 <mat-menu #userMenu="matMenu">
-  @if (userService.currentUserSig()) {
+  @if (user) {
   <button routerLink="user/user-profile" mat-menu-item>
     <mat-icon>person</mat-icon>
     <span>View profile</span>
   </button>
-  } @if (!userService.currentUserSig()) {
+  } @if (!user) {
   <button routerLink="user/login" mat-menu-item>
     <mat-icon>login</mat-icon>
     <span>Log in</span>
   </button>
-  } @if (!userService.currentUserSig()) {
+  } @if (!user) {
   <button routerLink="user/registration" mat-menu-item>
     <mat-icon>person_add</mat-icon>
     <span>Create new account</span>
   </button>
-  } @if (userService.currentUserSig()) {
+  } @if (user) {
   <button routerLink="user/user-settings" mat-menu-item>
     <mat-icon>settings</mat-icon>
     <span>Settings</span>
   </button>
-  } @if (userService.currentUserSig()) {
+  } @if (user) {
   <button (click)="onLogout()" mat-menu-item>
     <mat-icon>logout</mat-icon>
     <span>Log out</span>

@@ -22,7 +22,7 @@
     </li>
     }
     <mat-divider></mat-divider>
-    @if (userService.currentUserSig()) {
+    @if (user) {
     <li>
       <a mat-button routerLinkActive="active" (click)="onLogout()"
         ><mat-icon>logout</mat-icon> <span>Sign Out</span>

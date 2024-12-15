@@ -1,7 +1,7 @@
 export interface EditUserDetails {
-email: string;
+  email: string;
   firstName: string;
   lastName: string;
-  phoneNumber?: string;
-  dateOfBirth?: Date;
+  phoneNumber: string | null | undefined;
+  dateOfBirth: Date | null | undefined;
 }

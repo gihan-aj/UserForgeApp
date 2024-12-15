@@ -2,6 +2,7 @@ import {
   Component,
   computed,
   effect,
+  inject,
   input,
   output,
   signal,
@@ -21,6 +22,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserService } from '../../user/services/user.service';
+import { User } from '../../user/models/user.model';
 
 @Component({
   selector: 'app-top-bar',
@@ -45,28 +47,46 @@ import { UserService } from '../../user/services/user.service';
   ],
 })
 export class TopBarComponent {
+  userService = inject(UserService);
+
   darkMode = signal<boolean>(true);
 
   sideNavbarOpened = input.required<boolean>();
 
   changeSideNavbarOpened = output<boolean>();
 
-  userDisplayText = computed(() => {
-    if (this.userService.currentUserSig()) {
-      return (
-        this.userService.currentUserSig()!.firstName[0].toUpperCase() +
-        this.userService.currentUserSig()!.lastName[0].toUpperCase()
-      );
-    } else {
-      return 'person';
-    }
-  });
+  user: User | null | undefined;
 
-  isUserLoggedIn = computed(() =>
-    this.userService.currentUserSig() ? true : false
-  );
+  userInitials: string | undefined;
 
-  constructor(public userService: UserService) {}
+  // userDisplayText = computed(() => {
+  //   if (this.userService.currentUserSig()) {
+  //     return (
+  //       this.userService.currentUserSig()!.firstName[0].toUpperCase() +
+  //       this.userService.currentUserSig()!.lastName[0].toUpperCase()
+  //     );
+  //   } else {
+  //     return 'person';
+  //   }
+  // });
+
+  // isUserLoggedIn = computed(() =>
+  //   this.userService.currentUserSig() ? true : false
+  // );
+
+  constructor() {
+    this.userService.user$.subscribe({
+      next: (user) => {
+        if (user) {
+          this.user = user;
+          this.userInitials = user?.initials;
+        } else {
+          this.user = null;
+          this.userInitials = undefined;
+        }
+      },
+    });
+  }
 
   onLogout() {
     this.userService.logout();

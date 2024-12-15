@@ -13,7 +13,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const jwtTokenService = inject(JwtTokenService);
   const notificationService = inject(NotificationService);
 
-  if (userService.currentUserSig()) {
+  if (userService.getUser()) {
     const accessToken = userService.getAccessToken();
     if (accessToken) {
       if (!jwtTokenService.isTokenExpired(accessToken)) {
@@ -21,7 +21,7 @@ export const authGuard: CanActivateFn = (route, state) => {
       }
       console.log('jwt has expired.');
     } else {
-      userService.clearSession();
+      userService.clearUser();
 
       notificationService.showNotification(
         NotificationType.danger,

@@ -61,7 +61,7 @@ export class UserProfileComponent implements OnInit {
           MESSAGES.user.notifications.danger.userProfileRetrievalFailed
         );
 
-        this.userService.clearSession();
+        this.userService.clearUser();
         this.router.navigateByUrl('/user/login');
       },
     });

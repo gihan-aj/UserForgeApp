@@ -10,7 +10,7 @@ export const loginGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const notificationService = inject(NotificationService);
 
-  if (userService.currentUserSig()) {
+  if (userService.getUser()) {
     notificationService.showNotification(
       NotificationType.info,
       MESSAGES.user.notifications.info.alreadyLoggedIn

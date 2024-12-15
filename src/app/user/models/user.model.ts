@@ -1,17 +1,50 @@
 export class User {
-  constructor(
-    public id: string,
-    public firstName: string,
-    public lastName: string,
-    public email: string,
-    public roles: string[],
-    public phoneNumber?: string,
-    public dateOfBirth?: Date
-  ) {}
+  private readonly _id: string;
+  private _email: string | undefined;
+  private _firstName: string;
+  private _lastName: string;
+
+  constructor(id: string, firstName: string, lastName: string) {
+    this._id = id;
+    this._firstName = firstName;
+    this._lastName = lastName;
+  }
+
+  roles: string[] = [];
+  phoneNumber: string | null | undefined;
+  dateOfBirth: Date | null | undefined;
+
+  get id() {
+    return this._id;
+  }
+
+  get email() {
+    return this._email;
+  }
+
+  get firstName() {
+    return this.capitalize(this._firstName);
+  }
+
+  set firstName(value: string) {
+    this._firstName = value;
+  }
+
+  get lastName() {
+    return this.capitalize(this._lastName);
+  }
+
+  set lastName(value: string) {
+    this._lastName = value;
+  }
+
+  get initials(): string {
+    return `${this._firstName[0]}${this._lastName[0]}`.toUpperCase();
+  }
 
   get fullName(): string {
-    return `${this.capitalize(this.firstName)} ${this.capitalize(
-      this.lastName
+    return `${this.capitalize(this._firstName)} ${this.capitalize(
+      this._lastName
     )}`;
   }
 
@@ -23,6 +56,15 @@ export class User {
     return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(
       this.dateOfBirth
     );
+  }
+
+  updateProfileDetails(phoneNumber: string, dateOfBirth: Date): void {
+    this.phoneNumber = phoneNumber;
+    this.dateOfBirth = dateOfBirth;
+  }
+
+  updateEmail(newEmail: string): void {
+    this._email = newEmail;
   }
 
   private capitalize(value: string): string {

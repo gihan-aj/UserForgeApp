@@ -1,10 +1,16 @@
 import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { LoginRequest } from '../models/login-request.model';
-import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  Observable,
+  tap,
+  throwError,
+} from 'rxjs';
 import { LoginResponse } from '../models/login-response.model';
-import { UserResponse } from '../models/user-response.model';
 import { MessageService } from '../../shared/services/message.service';
 import { Router } from '@angular/router';
 import { REFRESH_TOKEN } from '../../shared/constants/refresh-token';
@@ -23,7 +29,11 @@ import { EditUserDetails } from '../models/edit-user-details.interface';
 export class UserService {
   private baseUrl: string = `${environment.baseUrl}/user`;
 
-  private accessToken: string | null | undefined;
+  private userSubject = new BehaviorSubject<User | null>(null);
+  private accessTokenSubject = new BehaviorSubject<string | null>(null);
+
+  user$ = this.userSubject.asObservable();
+  accessToken$ = this.accessTokenSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -33,22 +43,64 @@ export class UserService {
     private messageService: MessageService
   ) {}
 
-  public currentUserSig = signal<UserResponse | null | undefined>(undefined);
+  setUser(user: User) {
+    this.userSubject.next(user);
+  }
 
-  public login(request: LoginRequest): Observable<void> {
+  setRefreshToken(token: string): void {
+    localStorage.setItem(REFRESH_TOKEN, token);
+  }
+
+  setAccessToken(token: string): void {
+    this.accessTokenSubject.next(token);
+  }
+
+  getAccessToken(): string | null {
+    return this.accessTokenSubject.value;
+  }
+
+  getUser(): User | null {
+    return this.userSubject.value;
+  }
+
+  getRefreshToken(): string | null {
+    return localStorage.getItem(REFRESH_TOKEN);
+  }
+
+  updateAdditionalUserDetails(updater: (user: User) => void): void {
+    const currentUser = this.userSubject.value;
+    if (currentUser) {
+      updater(currentUser);
+      this.userSubject.next(currentUser);
+    }
+  }
+
+  clearUser(): void {
+    this.userSubject.next(null);
+    this.accessTokenSubject.next(null);
+    localStorage.removeItem(REFRESH_TOKEN);
+  }
+
+  login(request: LoginRequest): Observable<void> {
     const url = `${this.baseUrl}/login`;
+
     return this.http.post<LoginResponse>(url, request).pipe(
       map((response) => {
         if (response) {
-          this.persistUserAndTokens(response);
-
-          const firstName = this.capitalizeFirstLetter(response.user.firstName);
-          const lastName = this.capitalizeFirstLetter(response.user.lastName);
-          const message = this.messageService.getMassage(
-            'user.notifications.success.loggedIn',
-            { firstName: firstName, lastName: lastName }
+          let user = new User(
+            response.user.id,
+            response.user.firstName,
+            response.user.lastName
           );
 
+          this.setUser(user);
+          this.setAccessToken(response.accessToken);
+          this.setRefreshToken(response.refreshToken);
+
+          const message = this.messageService.getMassage(
+            'user.notifications.success.loggedIn',
+            { firstName: user.firstName, lastName: user.lastName }
+          );
           this.notificationService.showNotification(
             NotificationType.success,
             message
@@ -58,25 +110,7 @@ export class UserService {
     );
   }
 
-  public getAccessToken(): string | null | undefined {
-    return this.accessToken;
-  }
-
-  public setAccessToken(token: string): void {
-    this.accessToken = token;
-  }
-
-  public getRefreshToken(): string | null {
-    return localStorage.getItem(REFRESH_TOKEN);
-  }
-
-  public clearSession(): void {
-    this.currentUserSig.set(null);
-    this.accessToken = null;
-    localStorage.removeItem(REFRESH_TOKEN);
-  }
-
-  public logout() {
+  logout() {
     const title = this.messageService.getMassage(
       'user.confirmations.titles.logout'
     );
@@ -92,25 +126,22 @@ export class UserService {
       .subscribe({
         next: (accepted) => {
           if (accepted) {
-            this.clearSession();
+            this.clearUser();
             this.router.navigateByUrl('/user/login');
           }
         },
       });
   }
 
-  public refreshAccessToken(refreshToken: string): Observable<any> {
+  refreshAccessToken(refreshToken: string): Observable<any> {
     const url = this.baseUrl + '/refresh';
     return this.http.post<any>(url, { refreshToken: refreshToken }).pipe(
       tap((response) => {
-        this.persistUserAndTokens(response);
-
-        console.log('refreshing access token:', response.user);
+        this.setAccessToken(response.accessToken);
+        this.setRefreshToken(response.refreshToken);
       }),
       catchError((error) => {
-        console.error('Error refreshing access token:', error);
-
-        this.clearSession();
+        this.clearUser();
         this.router.navigateByUrl('user/login');
 
         return throwError(() => error);
@@ -118,27 +149,12 @@ export class UserService {
     );
   }
 
-  public addToken(req: HttpRequest<any>, token: string): HttpRequest<any> {
+  addToken(req: HttpRequest<any>, token: string): HttpRequest<any> {
     return req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
       },
     });
-  }
-
-  private setRefresToken(token: string): void {
-    localStorage.setItem(REFRESH_TOKEN, token);
-  }
-
-  private persistUserAndTokens(response: LoginResponse) {
-    this.currentUserSig.set(response.user);
-    this.setAccessToken(response.accessToken);
-    this.setRefresToken(response.refreshToken);
-  }
-
-  private capitalizeFirstLetter(text: string): string {
-    if (!text) return text;
-    return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
   // Registraion
@@ -193,15 +209,19 @@ export class UserService {
 
     return this.http.get<UserInterface>(url).pipe(
       map((data) => {
-        return new User(
-          data.id,
-          data.firstName,
-          data.lastName,
-          data.email,
-          data?.roles,
-          data?.phoneNumber,
-          data?.dateOfBirth ? new Date(data.dateOfBirth) : undefined
-        );
+        let user = this.userSubject.value;
+        if (user && user.id === data.id) {
+          user.updateEmail(data.email);
+          user.firstName = data.firstName;
+          user.lastName = data.lastName;
+          user.phoneNumber = data.phoneNumber;
+          user.dateOfBirth = data.dateOfBirth
+            ? new Date(data.dateOfBirth)
+            : undefined;
+
+          this.setUser(user);
+        }
+        return user!;
       })
     );
   }

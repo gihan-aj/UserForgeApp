@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { UserService } from '../../user/services/user.service';
+import { User } from '../../user/models/user.model';
 
 @Component({
   selector: 'app-sidenav',
@@ -23,6 +24,20 @@ export class SidenavComponent {
   public userService = inject(UserService);
 
   closeSidemenu = output<boolean>();
+
+  user: User | null | undefined;
+
+  constructor() {
+    this.userService.user$.subscribe({
+      next: (user) => {
+        if (user) {
+          this.user = user;
+        } else {
+          this.user = null;
+        }
+      },
+    });
+  }
 
   menuItems = [
     {
