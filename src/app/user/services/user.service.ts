@@ -139,6 +139,13 @@ export class UserService {
       tap((response) => {
         this.setAccessToken(response.accessToken);
         this.setRefreshToken(response.refreshToken);
+
+        let newUser = new User(
+          response.user.id,
+          response.user.firstName,
+          response.user.lastName
+        );
+        this.setUser(newUser);
       }),
       catchError((error) => {
         this.clearUser();
@@ -220,6 +227,18 @@ export class UserService {
             : undefined;
 
           this.setUser(user);
+        } else {
+          let newUser = new User(data.id, data.firstName, data.lastName);
+
+          newUser.updateEmail(data.email);
+          newUser.firstName = data.firstName;
+          newUser.lastName = data.lastName;
+          newUser.phoneNumber = data.phoneNumber;
+          newUser.dateOfBirth = data.dateOfBirth
+            ? new Date(data.dateOfBirth)
+            : undefined;
+
+          this.setUser(newUser);
         }
         return user!;
       })

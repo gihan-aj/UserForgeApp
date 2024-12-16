@@ -17,7 +17,6 @@ import {
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { UserInterface } from '../../../models/user.interface';
 import { DataValidationService } from '../../../../shared/services/data-validation.service';
 import { MessageService } from '../../../../shared/services/message.service';
 import {
@@ -25,7 +24,6 @@ import {
   FIRST_NAME_MAX_LENGTH,
   LAST_NAME_MIN_LENGTH,
   LAST_NAME_MAX_LENGTH,
-  EMAIL_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
   PASSWORD_MAX_LENGTH,
   USER_MIN_AGE,

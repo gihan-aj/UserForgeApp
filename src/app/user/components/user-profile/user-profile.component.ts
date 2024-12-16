@@ -76,6 +76,18 @@ export class UserProfileComponent implements OnInit {
       dateOfBirth: this.user?.dateOfBirth,
     };
 
+    if (data.dateOfBirth) {
+      const utcDate = new Date(
+        Date.UTC(
+          data.dateOfBirth.getFullYear(),
+          data.dateOfBirth.getMonth(),
+          data.dateOfBirth.getDate()
+        )
+      );
+
+      data.dateOfBirth = utcDate;
+    }
+
     const dialogRef = this.dialog.open(EditUserDetailsDialogComponent, {
       data: data,
     });
@@ -83,7 +95,7 @@ export class UserProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe({
       next: (res: EditUserDetails) => {
         if (res) {
-          console.log('When send: ', res.dateOfBirth);
+          console.log('Input: ', res.dateOfBirth);
           this.userService.updateUserDetails(res).subscribe({
             next: () => {
               this.notificationService.showNotification(

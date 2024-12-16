@@ -5,14 +5,11 @@ import { UserService } from '../../user/services/user.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const userService = inject(UserService);
-  const user = userService.getUser();
+  const accessToken = userService.getAccessToken();
   const refreshToken = userService.getRefreshToken();
 
-  if (user && refreshToken) {
-    const accessToken = userService.getAccessToken();
-    if (accessToken) {
-      req = userService.addToken(req, accessToken);
-    }
+  if (accessToken && refreshToken) {
+    req = userService.addToken(req, accessToken);
   }
 
   return next(req).pipe(
@@ -20,7 +17,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 401 && refreshToken) {
         console.log('unauthorized request');
 
-        userService.refreshAccessToken(refreshToken).pipe(
+        return userService.refreshAccessToken(refreshToken).pipe(
           switchMap((response) => {
             console.log('called refreshAccessToken');
             const newAccessToken = response.accessToken;

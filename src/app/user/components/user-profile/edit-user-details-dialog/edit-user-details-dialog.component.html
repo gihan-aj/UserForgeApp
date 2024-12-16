@@ -158,13 +158,13 @@
 
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Date of birth</mat-label>
-          <input matInput [matDatepicker]="dob" formControlName="dateOfBirth" />
+          <input matInput [matDatepicker]="dobPicker" formControlName="dateOfBirth" />
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle
             matIconSuffix
-            [for]="dob"
+            [for]="dobPicker"
           ></mat-datepicker-toggle>
-          <mat-datepicker #dob></mat-datepicker>
+          <mat-datepicker #dobPicker></mat-datepicker>
         </mat-form-field>
       </div>
     </div>
