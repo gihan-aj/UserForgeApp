@@ -22,6 +22,7 @@ import { ResetPasswordRequest } from '../models/reset-password-request';
 import { User } from '../models/user.model';
 import { UserInterface } from '../models/user.interface';
 import { EditUserDetails } from '../models/edit-user-details.interface';
+import { EditUserDetailsRequest } from '../models/edit-user-details-request.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -246,7 +247,7 @@ export class UserService {
   }
 
   // Update user details
-  public updateUserDetails(request: EditUserDetails): Observable<void> {
+  public updateUserDetails(request: EditUserDetailsRequest): Observable<void> {
     const url = `${this.baseUrl}/update-user`;
 
     return this.http.put<void>(url, request, {});

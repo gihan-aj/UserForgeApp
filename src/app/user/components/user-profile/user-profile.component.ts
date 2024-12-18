@@ -16,6 +16,7 @@ import { UserInterface } from '../../models/user.interface';
 import { EditUserDetails } from '../../models/edit-user-details.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { EditUserDetailsDialogComponent } from './edit-user-details-dialog/edit-user-details-dialog.component';
+import { EditUserDetailsRequest } from '../../models/edit-user-details-request.interface';
 
 @Component({
   selector: 'app-user-profile',
@@ -96,7 +97,18 @@ export class UserProfileComponent implements OnInit {
       next: (res: EditUserDetails) => {
         if (res) {
           console.log('Input: ', res.dateOfBirth);
-          this.userService.updateUserDetails(res).subscribe({
+
+          const request: EditUserDetailsRequest = {
+            email: res.email,
+            firstName: res.firstName,
+            lastName: res.lastName,
+            phoneNumber: res.phoneNumber,
+            dateOfBirth: res.dateOfBirth?.toISOString(),
+          };
+
+          console.log(request);
+
+          this.userService.updateUserDetails(request).subscribe({
             next: () => {
               this.notificationService.showNotification(
                 NotificationType.success,
