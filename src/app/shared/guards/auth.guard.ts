@@ -16,6 +16,8 @@ export const authGuard: CanActivateFn = (route, state) => {
   const accessToken = userService.getAccessToken();
   const refreshToken = userService.getRefreshToken();
 
+  console.log('auth guard', accessToken, refreshToken);
+
   if (accessToken && !jwtTokenService.isTokenExpired(accessToken)) {
     return true;
   }
@@ -23,6 +25,8 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (refreshToken) {
     return userService.refreshAccessToken(refreshToken).pipe(
       map((success) => {
+        console.log('refresh process', success);
+
         if (success) {
           return true;
         } else {

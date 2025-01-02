@@ -11,14 +11,23 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div>
           <div class="error-feedback">
-            @if (hasDisplayableError('email')) {
+            @if (dataValidation.hasDisplayableError(form, 'email', isSubmitted))
+            {
             <ng-container [ngSwitch]="email?.errors | firstKey">
               <div *ngSwitchCase="'required'">
-                Email is <strong>required.</strong>
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.email.required"
+                  )
+                }}
               </div>
 
               <div *ngSwitchCase="'email'">
-                Email is <strong>invalid.</strong>
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.email.invalid"
+                  )
+                }}
               </div>
             </ng-container>
             }@else {
@@ -40,10 +49,15 @@
 
         <div>
           <div class="error-feedback">
-            @if (hasDisplayableError('password')) {
+            @if (dataValidation.hasDisplayableError(form,'password',
+            isSubmitted)) {
             <ng-container [ngSwitch]="password?.errors | firstKey">
               <div *ngSwitchCase="'required'">
-                Password is <strong>required.</strong>
+                {{
+                  messageService.getMassage(
+                    "user.validations.registration.password.required"
+                  )
+                }}
               </div>
             </ng-container>
             }@else {
@@ -56,9 +70,21 @@
             <input
               required
               matInput
-              type="password"
+              [type]="hide() ? 'password' : 'text'"
               formControlName="password"
             />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="clickEvent($event)"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide()"
+            >
+              <mat-icon>{{
+                hide() ? "visibility_off" : "visibility"
+              }}</mat-icon>
+            </button>
           </mat-form-field>
         </div>
 

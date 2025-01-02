@@ -2,7 +2,7 @@ import { HttpErrorMessages } from '../types/http-error-messages.type';
 
 export const HTTP_ERROR_MESSAGES: HttpErrorMessages = {
   0: {
-    title: 'Offline',
+    title: 'Network Problem',
     message:
       'Unable to connect to the server. Please check your internet connection.',
   },

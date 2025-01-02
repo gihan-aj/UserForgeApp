@@ -5,5 +5,5 @@ export interface UserInterface {
   email: string;
   roles: string[];
   phoneNumber?: string;
-  dateOfBirth?: Date;
+  dateOfBirth?: string;
 }

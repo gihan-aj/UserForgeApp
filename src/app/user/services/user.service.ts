@@ -21,8 +21,10 @@ import { RegsitrationRequest } from '../models/registration-request';
 import { ResetPasswordRequest } from '../models/reset-password-request';
 import { User } from '../models/user.model';
 import { UserInterface } from '../models/user.interface';
-import { EditUserDetails } from '../models/edit-user-details.interface';
 import { EditUserDetailsRequest } from '../models/edit-user-details-request.interface';
+import { DeviceIdentifierService } from '../../shared/services/device-identifier.service';
+import { LoginUser } from '../models/login-user.interface';
+import { RefreshRequest } from '../models/refresh-request.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +41,7 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private deviceIdentifier: DeviceIdentifierService,
     private notificationService: NotificationService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
@@ -82,10 +85,18 @@ export class UserService {
     localStorage.removeItem(REFRESH_TOKEN);
   }
 
-  login(request: LoginRequest): Observable<void> {
+  login(request: LoginUser): Observable<void> {
     const url = `${this.baseUrl}/login`;
+    const deviceIdentifier =
+      this.deviceIdentifier.getOrCreateDeviceIdentifier();
 
-    return this.http.post<LoginResponse>(url, request).pipe(
+    const body: LoginRequest = {
+      email: request.email,
+      password: request.password,
+      deviceIdentifier: deviceIdentifier,
+    };
+
+    return this.http.post<LoginResponse>(url, body).pipe(
       map((response) => {
         if (response) {
           let user = new User(
@@ -127,6 +138,7 @@ export class UserService {
       .subscribe({
         next: (accepted) => {
           if (accepted) {
+            this.logoutFromServer().subscribe();
             this.clearUser();
             this.router.navigateByUrl('/user/login');
           }
@@ -136,8 +148,17 @@ export class UserService {
 
   refreshAccessToken(refreshToken: string): Observable<any> {
     const url = this.baseUrl + '/refresh';
-    return this.http.post<any>(url, { refreshToken: refreshToken }).pipe(
+    const body: RefreshRequest = {
+      refreshToken: refreshToken,
+      deviceIdentifier: this.deviceIdentifier.getOrCreateDeviceIdentifier(),
+    };
+
+    console.log('refresh request body, ', body);
+
+    return this.http.post<any>(url, body).pipe(
       tap((response) => {
+        console.log(response);
+
         this.setAccessToken(response.accessToken);
         this.setRefreshToken(response.refreshToken);
 
@@ -146,9 +167,12 @@ export class UserService {
           response.user.firstName,
           response.user.lastName
         );
+
         this.setUser(newUser);
       }),
       catchError((error) => {
+        console.log('catch error', error);
+        this.logoutFromServer().subscribe();
         this.clearUser();
         this.router.navigateByUrl('user/login');
 
@@ -223,9 +247,10 @@ export class UserService {
           user.firstName = data.firstName;
           user.lastName = data.lastName;
           user.phoneNumber = data.phoneNumber;
-          user.dateOfBirth = data.dateOfBirth
-            ? new Date(data.dateOfBirth)
-            : undefined;
+          // user.dateOfBirth = data.dateOfBirth
+          //   ? new Date(data.dateOfBirth)
+          //   : undefined;
+          user.dateOfBirth = data.dateOfBirth;
 
           this.setUser(user);
         } else {
@@ -235,9 +260,10 @@ export class UserService {
           newUser.firstName = data.firstName;
           newUser.lastName = data.lastName;
           newUser.phoneNumber = data.phoneNumber;
-          newUser.dateOfBirth = data.dateOfBirth
-            ? new Date(data.dateOfBirth)
-            : undefined;
+          // newUser.dateOfBirth = data.dateOfBirth
+          //   ? new Date(data.dateOfBirth)
+          //   : undefined;
+          newUser.dateOfBirth = data.dateOfBirth;
 
           this.setUser(newUser);
         }
@@ -251,5 +277,15 @@ export class UserService {
     const url = `${this.baseUrl}/update-user`;
 
     return this.http.put<void>(url, request, {});
+  }
+
+  // logout from server
+  public logoutFromServer() {
+    const url = `${this.baseUrl}/logout`;
+    const body = {
+      deviceIdentifier: this.deviceIdentifier.getOrCreateDeviceIdentifier(),
+    };
+
+    return this.http.put<void>(url, body, {});
   }
 }

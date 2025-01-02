@@ -6,6 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { UserService } from '../../user/services/user.service';
 import { User } from '../../user/models/user.model';
+import { LARGE_SCREEN_LOWER_LIMIT } from '../../shared/constants/screen-sizes';
 
 @Component({
   selector: 'app-sidenav',
@@ -88,7 +89,7 @@ export class SidenavComponent {
   ];
 
   menuItemClicked() {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < LARGE_SCREEN_LOWER_LIMIT) {
       this.closeSidemenu.emit(true);
     }
   }

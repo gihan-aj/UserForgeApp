@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
@@ -7,20 +7,20 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-
 import { UserService } from '../../services/user.service';
 import { ErrorHandlingService } from '../../../shared/services/error-handling.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { FirstKeyPipe } from '../../../shared/pipes/first-key.pipe';
-
-import { LoginRequest } from '../../models/login-request.model';
 import { NotificationType } from '../../../shared/enums/notification-type.enum';
 import { EMAIL_MAX_LENGTH } from '../../../shared/constants/constraints';
 import { MESSAGES } from '../../../shared/constants/messages';
-
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { LoginUser } from '../../models/login-user.interface';
+import { DataValidationService } from '../../../shared/services/data-validation.service';
+import { MessageService } from '../../../shared/services/message.service';
 
 @Component({
   selector: 'app-login',
@@ -33,6 +33,7 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
     FirstKeyPipe,
   ],
   templateUrl: './login.component.html',
@@ -45,8 +46,16 @@ export class LoginComponent {
   private userService = inject(UserService);
   private notificationService = inject(NotificationService);
   private errorHandling = inject(ErrorHandlingService);
+  public dataValidation = inject(DataValidationService);
+  public messageService = inject(MessageService);
 
   private returnUrl: string | null = null;
+
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
 
   constructor() {
     if (this.userService.getUser()) {
@@ -87,7 +96,7 @@ export class LoginComponent {
     this.isSubmitted = true;
 
     if (this.form.valid) {
-      const request: LoginRequest = this.form.getRawValue();
+      const request: LoginUser = this.form.getRawValue();
 
       this.isRequestPending = true;
 

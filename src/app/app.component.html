@@ -1,7 +1,7 @@
 <mat-drawer-container class="h-100">
   <mat-drawer
     class="sidenav-bar w-auto"
-    mode="side"
+    [mode]="sideNavBarMode()"
     [opened]="sideNavbarOpened()"
     (openedChange)="changeSideNavbarOpened($event)"
   >

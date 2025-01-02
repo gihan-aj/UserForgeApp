@@ -12,7 +12,7 @@ export class User {
 
   roles: string[] = [];
   phoneNumber: string | null | undefined;
-  dateOfBirth: Date | null | undefined;
+  dateOfBirth: string | null | undefined;
 
   get id() {
     return this._id;
@@ -51,17 +51,17 @@ export class User {
   /**
    * Configure to retrive this DateTimeFormat options from user settings or something *******
    */
-  get formattedDateOfBirth(): string {
-    if (!this.dateOfBirth) return 'Not provided';
-    return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(
-      this.dateOfBirth
-    );
-  }
+  // get formattedDateOfBirth(): string {
+  //   if (!this.dateOfBirth) return 'Not provided';
+  //   return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(
+  //     this.dateOfBirth
+  //   );
+  // }
 
-  updateProfileDetails(phoneNumber: string, dateOfBirth: Date): void {
-    this.phoneNumber = phoneNumber;
-    this.dateOfBirth = dateOfBirth;
-  }
+  // updateProfileDetails(phoneNumber: string, dateOfBirth: Date): void {
+  //   this.phoneNumber = phoneNumber;
+  //   this.dateOfBirth = dateOfBirth;
+  // }
 
   updateEmail(newEmail: string): void {
     this._email = newEmail;

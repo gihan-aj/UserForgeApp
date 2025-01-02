@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
@@ -30,6 +30,7 @@ import { FirstKeyPipe } from '../../../shared/pipes/first-key.pipe';
 import { MessageService } from '../../../shared/services/message.service';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-registration',
@@ -43,6 +44,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
     MatDatepickerModule,
     FirstKeyPipe,
   ],
@@ -53,6 +55,12 @@ export class RegistrationComponent {
   fb = inject(FormBuilder);
   public dataValidation = inject(DataValidationService);
   public messageService = inject(MessageService);
+
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
 
   constructor(
     private userService: UserService,

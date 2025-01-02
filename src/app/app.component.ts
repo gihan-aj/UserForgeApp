@@ -8,6 +8,8 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.component';
 import { BreadcrumbService } from './shared/components/breadcrumb/breadcrumb.service';
 import { routerFadeIn } from './shared/animations/router-fade-in.animation';
+import { DeviceIdentifierService } from './shared/services/device-identifier.service';
+import { LARGE_SCREEN_LOWER_LIMIT } from './shared/constants/screen-sizes';
 
 @Component({
   selector: 'app-root',
@@ -28,11 +30,16 @@ export class AppComponent implements OnInit {
   title = 'userforge-app';
   screenWidth = signal<number>(window.innerWidth);
   sideNavbarOpened = signal<boolean>(true);
+  sideNavBarMode = signal<'over' | 'push' | 'side'>('side');
 
-  constructor(public breadcrumbService: BreadcrumbService) {}
+  constructor(
+    public breadcrumbService: BreadcrumbService,
+    private deviceIdentifier: DeviceIdentifierService
+  ) {}
 
   ngOnInit(): void {
-    this.sideNavbarOpened.set(this.screenWidth() > 768);
+    this.sideNavbarOpened.set(this.screenWidth() > LARGE_SCREEN_LOWER_LIMIT);
+    this.deviceIdentifier.getOrCreateDeviceIdentifier();
   }
 
   changeSideNavbarOpened($event: boolean) {
@@ -42,10 +49,12 @@ export class AppComponent implements OnInit {
   @HostListener('window:resize')
   onResize() {
     this.screenWidth.set(window.innerWidth);
-    if (this.screenWidth() < 768) {
+    if (this.screenWidth() < LARGE_SCREEN_LOWER_LIMIT) {
       this.sideNavbarOpened.set(false);
+      this.sideNavBarMode.set('over');
     } else {
       this.sideNavbarOpened.set(true);
+      this.sideNavBarMode.set('side');
     }
   }
 }

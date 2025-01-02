@@ -74,20 +74,10 @@ export class UserProfileComponent implements OnInit {
       firstName: this.user?.firstName!,
       lastName: this.user?.lastName!,
       phoneNumber: this.user?.phoneNumber,
-      dateOfBirth: this.user?.dateOfBirth,
+      dateOfBirth: this.user?.dateOfBirth
+        ? new Date(this.user.dateOfBirth)
+        : undefined,
     };
-
-    if (data.dateOfBirth) {
-      const utcDate = new Date(
-        Date.UTC(
-          data.dateOfBirth.getFullYear(),
-          data.dateOfBirth.getMonth(),
-          data.dateOfBirth.getDate()
-        )
-      );
-
-      data.dateOfBirth = utcDate;
-    }
 
     const dialogRef = this.dialog.open(EditUserDetailsDialogComponent, {
       data: data,
@@ -96,17 +86,22 @@ export class UserProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe({
       next: (res: EditUserDetails) => {
         if (res) {
-          console.log('Input: ', res.dateOfBirth);
+          console.log(
+            'Input: ',
+            res.dateOfBirth?.getFullYear(),
+            res.dateOfBirth?.getMonth(),
+            res.dateOfBirth?.getDate()
+          );
 
           const request: EditUserDetailsRequest = {
             email: res.email,
             firstName: res.firstName,
             lastName: res.lastName,
             phoneNumber: res.phoneNumber,
-            dateOfBirth: res.dateOfBirth?.toISOString(),
+            dateOfBirth: this.getDateFromLocalTime(res.dateOfBirth),
           };
 
-          console.log(request);
+          console.log('before send: ', request);
 
           this.userService.updateUserDetails(request).subscribe({
             next: () => {
@@ -129,5 +124,20 @@ export class UserProfileComponent implements OnInit {
         }
       },
     });
+  }
+
+  private getDateFromLocalTime(
+    localDate: Date | undefined | null
+  ): string | null {
+    if (localDate) {
+      const year: string = localDate.getFullYear().toString();
+      const month: string = (localDate.getMonth() + 1)
+        .toString()
+        .padStart(2, '0');
+      const date: string = localDate.getDate().toString();
+      return `${year}-${month}-${date}`;
+    }
+
+    return null;
   }
 }

@@ -226,7 +226,8 @@
               <div *ngSwitchCase="'minlength'">
                 {{
                   messageService.getMassage(
-                    "user.validations.registration.password.minLength"
+                    "user.validations.registration.password.minLength",
+                    { passwordMinLength: passwordMinLength.toString() }
                   )
                 }}
               </div>
@@ -234,7 +235,8 @@
               <div *ngSwitchCase="'maxlength'">
                 {{
                   messageService.getMassage(
-                    "user.validations.registration.password.maxLength"
+                    "user.validations.registration.password.maxLength",
+                    { passwordMaxLength: passwordMaxLength.toString() }
                   )
                 }}
               </div>
@@ -282,9 +284,21 @@
               required
               minlength="{{ passwordMinLength }}"
               matInput
-              type="password"
+              [type]="hide() ? 'password' : 'text'"
               formControlName="password"
             />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="clickEvent($event)"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide()"
+            >
+              <mat-icon>{{
+                hide() ? "visibility_off" : "visibility"
+              }}</mat-icon>
+            </button>
           </mat-form-field>
         </div>
 

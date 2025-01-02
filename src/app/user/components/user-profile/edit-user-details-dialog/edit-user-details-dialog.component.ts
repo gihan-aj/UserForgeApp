@@ -120,6 +120,8 @@ export class EditUserDetailsDialogComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
+      console.log('from form: ', this.form.getRawValue());
+
       this.dialogRef.close(this.form.getRawValue());
     }
   }
