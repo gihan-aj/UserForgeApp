@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ApplicationConfig,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -9,6 +13,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { authInterceptor } from './shared/interceptors/auth.interceptor';
+import { appInitializer } from './app.init';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,5 +24,10 @@ export const appConfig: ApplicationConfig = {
       withInterceptorsFromDi()
     ),
     provideAnimationsAsync(),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+      multi: true,
+    },
   ],
 };

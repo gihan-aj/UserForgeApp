@@ -31,6 +31,7 @@ import { MessageService } from '../../../shared/services/message.service';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
+import { RegsitrationRequest } from '../../models/registration-request';
 
 @Component({
   selector: 'app-registration',
@@ -161,8 +162,19 @@ export class RegistrationComponent {
 
     if (this.form.valid) {
       this.isRequestPending = true;
+
       const request = this.form.getRawValue();
-      this.userService.register(request).subscribe({
+
+      const body: RegsitrationRequest = {
+        firstName: request.firstName,
+        lastName: request.lastName,
+        email: request.email,
+        phoneNumber: request.phoneNumber,
+        dateOfBirth: request.dateOfBirth === '' ? null : request.dateOfBirth,
+        password: request.password,
+      };
+
+      this.userService.register(body).subscribe({
         next: (response) => {
           console.log(response);
 

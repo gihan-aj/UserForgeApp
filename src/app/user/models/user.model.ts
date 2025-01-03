@@ -1,3 +1,5 @@
+import { UserSettings } from "./user-settings.interface";
+
 export class User {
   private readonly _id: string;
   private _email: string | undefined;
@@ -13,6 +15,7 @@ export class User {
   roles: string[] = [];
   phoneNumber: string | null | undefined;
   dateOfBirth: string | null | undefined;
+  userSettings: UserSettings | null | undefined;
 
   get id() {
     return this._id;

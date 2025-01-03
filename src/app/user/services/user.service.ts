@@ -138,9 +138,19 @@ export class UserService {
       .subscribe({
         next: (accepted) => {
           if (accepted) {
-            this.logoutFromServer().subscribe();
-            this.clearUser();
-            this.router.navigateByUrl('/user/login');
+            this.logoutFromServer().subscribe({
+              next: () => {
+                this.clearUser();
+                this.router.navigateByUrl('/user/login');
+              },
+              error: (error) => {
+                console.log('logout error', error);
+                this.clearUser();
+                this.router.navigateByUrl('/user/login');
+              },
+            });
+            // this.clearUser();
+            // this.router.navigateByUrl('/user/login');
           }
         },
       });
@@ -194,6 +204,8 @@ export class UserService {
     request: RegsitrationRequest
   ): Observable<{ message: string }> {
     const url = `${this.baseUrl}/register`;
+    console.log('request', request);
+
     return this.http.post<{ message: string }>(url, request);
   }
 
