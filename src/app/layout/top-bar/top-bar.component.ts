@@ -80,6 +80,9 @@ export class TopBarComponent {
         if (user) {
           this.user = user;
           this.userInitials = user?.initials;
+          user.userSettings?.theme === 'dark'
+            ? this.darkMode.set(true)
+            : this.darkMode.set(false);
         } else {
           this.user = null;
           this.userInitials = undefined;

@@ -25,6 +25,7 @@ import { EditUserDetailsRequest } from '../models/edit-user-details-request.inte
 import { DeviceIdentifierService } from '../../shared/services/device-identifier.service';
 import { LoginUser } from '../models/login-user.interface';
 import { RefreshRequest } from '../models/refresh-request.interface';
+import { UserSettings } from '../models/user-settings.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -105,6 +106,9 @@ export class UserService {
             response.user.lastName
           );
 
+          user.roles = response.user.roles;
+          user.userSettings = response.userSettings;
+
           this.setUser(user);
           this.setAccessToken(response.accessToken);
           this.setRefreshToken(response.refreshToken);
@@ -177,6 +181,9 @@ export class UserService {
           response.user.firstName,
           response.user.lastName
         );
+
+        newUser.roles = response.user.roles;
+        newUser.userSettings = response.userSettings;
 
         this.setUser(newUser);
       }),
@@ -299,5 +306,19 @@ export class UserService {
     };
 
     return this.http.put<void>(url, body, {});
+  }
+
+  // Get user settings
+  public getUserSettings(): Observable<UserSettings> {
+    const url = `${this.baseUrl}/user-settings`;
+
+    return this.http.get<UserSettings>(url);
+  }
+
+  // update user settings
+  public updateUserSettings(settings: UserSettings): Observable<void> {
+    const url = `${this.baseUrl}/update-user-settings`;
+
+    return this.http.put<void>(url, settings, {});
   }
 }

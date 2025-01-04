@@ -8,6 +8,7 @@ export const MESSAGES: Messages = {
         created: 'User with email: {email}, was successfully created.',
         updated: 'User details updated sucessfully.',
         userUpdated: 'Your user profile has been updated successfully.',
+        userSettingsUpdated: 'User settings updated successfully.',
       },
       info: {
         alreadyLoggedIn: 'You have already logged in.',
@@ -19,7 +20,9 @@ export const MESSAGES: Messages = {
         loginFailed: 'Access denied. You have to login again',
         userProfileRetrievalFailed:
           'User profile retrieval failed. Please login again.',
-          userUpdateFailed: 'User profile update failed.'
+        userUpdateFailed: 'User profile update failed.',
+        retrieveUserSettingsFailed: 'User settings retrieval failed.',
+        userSettingsUpdateFailed: 'User settings update failed.',
       },
     },
     confirmations: {

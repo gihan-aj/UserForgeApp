@@ -1,4 +1,4 @@
-import { UserSettings } from "./user-settings.interface";
+import { UserSettings } from './user-settings.interface';
 
 export class User {
   private readonly _id: string;
@@ -68,6 +68,10 @@ export class User {
 
   updateEmail(newEmail: string): void {
     this._email = newEmail;
+  }
+
+  updateUserSettings(settings: UserSettings): void {
+    this.userSettings = settings;
   }
 
   private capitalize(value: string): string {

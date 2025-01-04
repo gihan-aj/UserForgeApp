@@ -7,6 +7,7 @@ import { SendEmailComponent } from './components/send-email/send-email.component
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { authGuard } from '../shared/guards/auth.guard';
+import { UserSettingsComponent } from './components/user-settings/user-settings.component';
 
 export const routes: Routes = [
   {
@@ -43,6 +44,12 @@ export const routes: Routes = [
     path: 'user-profile',
     component: UserProfileComponent,
     data: { breadcrumb: 'user profile' },
+    canActivate: [authGuard],
+  },
+  {
+    path: 'user-settings',
+    component: UserSettingsComponent,
+    data: { breadcrumb: 'user settings' },
     canActivate: [authGuard],
   },
 ];

@@ -6,6 +6,7 @@ export type Messages = {
         created: string;
         updated: string;
         userUpdated: string;
+        userSettingsUpdated: string;
       };
       info: {
         alreadyLoggedIn: string;
@@ -17,6 +18,8 @@ export type Messages = {
         loginFailed: string;
         userProfileRetrievalFailed: string;
         userUpdateFailed: string;
+        retrieveUserSettingsFailed: string;
+        userSettingsUpdateFailed: string;
       };
     };
     confirmations: {
