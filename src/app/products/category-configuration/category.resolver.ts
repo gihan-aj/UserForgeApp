@@ -31,7 +31,7 @@ export class CategoryResolver implements Resolve<PagedList<CategoryInterface>> {
     const sortColumn = route.queryParamMap.get('sortColumn') || '';
     const searchTerm = route.queryParamMap.get('searchTerm') || '';
 
-    return this.service.get(
+    return this.service.fetchDataSet(
       +page,
       +pageSize,
       sortColumn,

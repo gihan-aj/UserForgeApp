@@ -62,5 +62,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     queryParams: { returnUrl: state.url },
   });
 
+  console.log('returning false at auth guard');
+
   return false;
 };

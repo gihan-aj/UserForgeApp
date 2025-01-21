@@ -7,99 +7,101 @@
 </div>
 
 <!-- Table -->
-<mat-table class="table" [dataSource]="dataSource()">
-  <!-- Column definitions -->
-  @if (allowMultiSelect()) {
-  <ng-container matColumnDef="select">
-    <mat-header-cell *matHeaderCellDef>
-      <mat-checkbox
-        (change)="$event ? toggleAllRows() : null"
-        [checked]="selection().hasValue() && isAllSelected()"
-        [indeterminate]="selection().hasValue() && !isAllSelected()"
-        [aria-label]="checkboxLabel()"
-      >
-      </mat-checkbox>
-    </mat-header-cell>
+<div class="table-responsive">
+  <mat-table [dataSource]="dataSource()">
+    <!-- Column definitions -->
+    @if (allowMultiSelect()) {
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox
+          (change)="$event ? toggleAllRows() : null"
+          [checked]="selection().hasValue() && isAllSelected()"
+          [indeterminate]="selection().hasValue() && !isAllSelected()"
+          [aria-label]="checkboxLabel()"
+        >
+        </mat-checkbox>
+      </mat-header-cell>
 
-    <mat-cell *matCellDef="let row">
-      <mat-checkbox
-        (click)="$event.stopPropagation()"
-        (change)="$event ? selection().toggle(row) : null"
-        [checked]="selection().isSelected(row)"
-        [aria-label]="checkboxLabel(row)"
-      >
-      </mat-checkbox>
-    </mat-cell>
-  </ng-container>
-  } @for (column of cellHeaders(); track $index) {
-  <ng-container matColumnDef="{{ column }}">
-    <mat-header-cell *matHeaderCellDef>{{
-      column | formatHeader
-    }}</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection().toggle(row) : null"
+          [checked]="selection().isSelected(row)"
+          [aria-label]="checkboxLabel(row)"
+        >
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+    } @for (column of cellHeaders(); track $index) {
+    <ng-container matColumnDef="{{ column }}">
+      <mat-header-cell *matHeaderCellDef>{{
+        column | formatHeader
+      }}</mat-header-cell>
 
-    <mat-cell *matCellDef="let item">{{
-      item[column] | formatHeader
-    }}</mat-cell>
-  </ng-container>
-  } @if (allowActions()) {
-  <ng-container matColumnDef="actions">
-    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let item">{{
+        item[column] | formatHeader
+      }}</mat-cell>
+    </ng-container>
+    } @if (allowActions()) {
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
 
-    <mat-cell *matCellDef="let item">
-      <button
-        class="success-text"
-        *ngIf="item.isActive"
-        mat-icon-button
-        aria-label="deactivate item"
-        (click)="onDeactivate(item)"
-        matTooltip="Deactivate"
-      >
-        <mat-icon>toggle_on</mat-icon>
-      </button>
-      <button
-        class="danger-text"
-        *ngIf="!item.isActive"
-        mat-icon-button
-        aria-label="activate item"
-        (click)="onActivate(item)"
-        matTooltip="Activate"
-      >
-        <mat-icon>toggle_off</mat-icon>
-      </button>
-      <button
-        class="info-text"
-        mat-icon-button
-        aria-label="view item"
-        (click)="onView(item)"
-        matTooltip="View"
-      >
-        <mat-icon>preview</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        aria-label="edit item"
-        (click)="onEdit(item)"
-        matTooltip="Edit"
-      >
-        <mat-icon class="info-text">edit</mat-icon>
-      </button>
-      <button
-        class="danger-text"
-        mat-icon-button
-        aria-label="delete item"
-        (click)="onDelete(item)"
-        matTooltip="Delete"
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
-    </mat-cell>
-  </ng-container>
-  }
+      <mat-cell *matCellDef="let item">
+        <button
+          class="success-text"
+          *ngIf="item.isActive"
+          mat-icon-button
+          aria-label="deactivate item"
+          (click)="onDeactivate(item)"
+          matTooltip="Deactivate"
+        >
+          <mat-icon>toggle_on</mat-icon>
+        </button>
+        <button
+          class="danger-text"
+          *ngIf="!item.isActive"
+          mat-icon-button
+          aria-label="activate item"
+          (click)="onActivate(item)"
+          matTooltip="Activate"
+        >
+          <mat-icon>toggle_off</mat-icon>
+        </button>
+        <button
+          class="info-text"
+          mat-icon-button
+          aria-label="view item"
+          (click)="onView(item)"
+          matTooltip="View"
+        >
+          <mat-icon>preview</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          aria-label="edit item"
+          (click)="onEdit(item)"
+          matTooltip="Edit"
+        >
+          <mat-icon class="info-text">edit</mat-icon>
+        </button>
+        <button
+          class="danger-text"
+          mat-icon-button
+          aria-label="delete item"
+          (click)="onDelete(item)"
+          matTooltip="Delete"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    }
 
-  <!-- Row definitions -->
-  <mat-header-row *matHeaderRowDef="columnsToBeDisplayed()"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: columnsToBeDisplayed()"></mat-row>
-</mat-table>
+    <!-- Row definitions -->
+    <mat-header-row *matHeaderRowDef="columnsToBeDisplayed()"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnsToBeDisplayed()"></mat-row>
+  </mat-table>
+</div>
 
 <!-- No data to show message -->
 <div *ngIf="dataSource().totalCount === 0" class="text-center p-3">

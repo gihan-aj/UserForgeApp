@@ -19,7 +19,7 @@ export class GenericDataSource<T> implements DataSource<T> {
 
   constructor(
     private dataService: {
-      get: (
+      fetchDataSet: (
         page: number,
         pageSize: number,
         sortColumn?: string,
@@ -49,7 +49,7 @@ export class GenericDataSource<T> implements DataSource<T> {
     this.loadingSubject.next(true);
 
     this.dataService
-      .get(page, pageSize, sortColumn, sortOrder, searchTerm)
+      .fetchDataSet(page, pageSize, sortColumn, sortOrder, searchTerm)
       .subscribe({
         next: (response) => {
           this.dataSubject.next(response.items);

@@ -15,7 +15,7 @@ export class CategoryConfigurationService {
 
   constructor() {}
 
-  get(
+  fetchDataSet(
     page: number,
     pageSize: number,
     sortColumn?: string,
